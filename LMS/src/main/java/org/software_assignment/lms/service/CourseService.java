@@ -9,16 +9,10 @@ public class CourseService {
 //    @Autowired
 //    private CourseRepository courseRepository;
 //
-//    public CourseService(CourseRepository courseRepository) {
-//        this.courseRepository = courseRepository;
-//    }
-//
-//    public CourseEntity addCourse(CourseEntity course) {
-//        if (course == null) {
-//            throw new IllegalArgumentException("Course cannot be null");
-//        }else{
-//             course.setDuration(0);
+//    public void deleteCourseById(String id) {
+//        if (!courseRepository.findById(id)) {
+//            throw new ResourceNotFoundException("Course with ID " + id + " does not exist.");
 //        }
-//        return courseRepository.save(course);
+//        courseRepository.deleteById(id);
 //    }
 }

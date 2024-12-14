@@ -2,6 +2,7 @@ package org.software_assignment.lms.controller;
 import org.software_assignment.lms.entity.CourseEntity;
 import org.software_assignment.lms.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,19 +13,21 @@ public class CourseController {
 //    @Autowired
 //    private CourseService courseService;
 //
-//    @PostMapping
-//    public ResponseEntity<CourseEntity> addCourse(
-//            @RequestBody CourseEntity course, // validation must be added, ask entity to add validation
-//            @RequestHeader("role") String userRole // Assume role is passed in request headers
-//            // we can use spring security access control for this too
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<String> deleteCourse(
+//            @PathVariable String id,
+//            @RequestHeader("role") String userRole
 //    ) {
 //        // Verify the user's role in the controller
 //        if (!"Admin".equalsIgnoreCase(userRole)) {
 //            return ResponseEntity.status(403).body(null); // Forbidden for non-Admin users
 //        }
-//
-//        // Call the service layer to handle course creation
-//        CourseEntity createdCourse = courseService.addCourse(course);
-//        return ResponseEntity.ok(createdCourse);
+//        try {
+//            courseService.deleteCourseById(id);
+//            return ResponseEntity.ok("Course deleted successfully!");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found: " + e.getMessage());
+//        }
 //    }
+
 }
