@@ -15,4 +15,34 @@ public class AssignmentEntity {
         this.courseId = courseId;
 
     }
+    public int getAssignmentID() {
+        return assignmentID;
+    }
+    public void setAssignmentID(int assignmentID) {
+        this.assignmentID = assignmentID;
+    }
+    public String getAssignmentName() {
+        return assignmentName;
+    }
+    public void setAssignmentName(String assignmentName) {
+        this.assignmentName = assignmentName;
+    }
+    public String getAssignmentDescription() {
+        return assignmentDescription;
+    }
+    public void setAssignmentDescription(String assignmentDescription) {
+        this.assignmentDescription = assignmentDescription;
+    }
+    public String getDueDate() {
+        return dueDate;
+    }
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+    public String getCourseId() {
+        return courseId;
+    }
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
 }
