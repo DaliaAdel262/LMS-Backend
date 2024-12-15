@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.software_assignment.lms.entity.CourseEntity;
 import org.software_assignment.lms.entity.*;
+import org.software_assignment.lms.repository.*;
 
 import java.util.*;
 
@@ -49,4 +50,31 @@ public class CourseService {
        }
        courseRepository.deleteById(id);
    }
+
+   //display enrolled students in course
+    public List<Student> getStudentsByCourseId(String courseId) {
+        List<CourseEntity> data = courseRepository.findAll();    
+        for (CourseEntity course : data) {
+            if (course.getId().equals(courseId)) {
+                return course.getEnrolledStudents();
+            }
+        }
+        return new ArrayList<>();
+    }
+    
+    public String addQuestionToCourse(String courseId, String question, String answer) {
+        List<CourseEntity> data = courseRepository.findAll();   
+        for (CourseEntity course : data) {
+            if (course.getId().equals(courseId)) {
+                if (course.getQuestionBank() == null) {
+                    throw new IllegalStateException("Question bank is not initialized for this course");
+                }
+                course.getQuestionBank().put(question, answer); // Add question-answer pair
+                return "Question added successfully";
+            }
+        }
+        throw new IllegalArgumentException("Course with ID " + courseId + " not found");
+    }
+
+
 }

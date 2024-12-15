@@ -84,6 +84,13 @@
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>5.0.0</version> <!-- Use the version compatible with your application -->
+			<scope>provided</scope>
+		</dependency>
+
 
 	</dependencies>
 

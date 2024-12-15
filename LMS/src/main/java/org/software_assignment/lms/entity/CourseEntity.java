@@ -2,6 +2,7 @@ package org.software_assignment.lms.entity;
 
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 public class CourseEntity {
 
@@ -14,7 +15,8 @@ public class CourseEntity {
     private List<LessonEntity> lessons;
     private List<AssignmentEntity> assignments;
     private List<QuizEntity> quizzes;
-    private List<Student> enrolledStudents;
+    private List<Student> enrolledStudents = new ArrayList<>();
+
     private Map<String, String> questionBank;
 
     public CourseEntity() {}
