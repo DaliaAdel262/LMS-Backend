@@ -1,6 +1,4 @@
 package org.software_assignment.lms.entity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,9 +11,9 @@ import java.util.ArrayList;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+
 public class UserEntity {
-    @Id
+
     private int id;
     private String name;
     private String birthday;

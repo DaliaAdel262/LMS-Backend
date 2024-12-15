@@ -12,7 +12,7 @@ public class Instructor extends UserEntity{
                               List<LessonEntity> lessons, List<AssignmentEntity> assignments, List<QuizEntity> quizzes,
                               List<String> enrolledStudents, Map<String, String> questionBank){
 
-        CourseEntity course = new CourseEntity(id,title, description,  duration,  instructorId,lessons, assignments,quizzes, enrolledStudents, questionBank);
+        CourseEntity course = new CourseEntity();
 
     }
     //Creates courses, manages course content, adds assignments and quizzes,

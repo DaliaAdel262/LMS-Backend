@@ -1,4 +1,5 @@
 package org.software_assignment.lms.entity;
+
 import java.util.List;
 import java.util.Map;
 
@@ -13,14 +14,14 @@ public class CourseEntity {
     private List<LessonEntity> lessons;
     private List<AssignmentEntity> assignments;
     private List<QuizEntity> quizzes;
-    private List<String> enrolledStudents;
+    private List<Student> enrolledStudents;
     private Map<String, String> questionBank;
 
     public CourseEntity() {}
 
     public CourseEntity(String id, String title, String description, int duration, int instructorId,
                         List<LessonEntity> lessons, List<AssignmentEntity> assignments, List<QuizEntity> quizzes,
-                        List<String> enrolledStudents, Map<String, String> questionBank) {
+                        List<Student> enrolledStudents, Map<String, String> questionBank) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -96,11 +97,11 @@ public class CourseEntity {
         this.quizzes = quizzes;
     }
 
-    public List<String > getEnrolledStudents() {
+    public List<Student > getEnrolledStudents() {
         return enrolledStudents;
     }
 
-    public void setEnrolledStudents(List<String> enrolledStudents) {
+    public void setEnrolledStudents(List<Student> enrolledStudents) {
         this.enrolledStudents = enrolledStudents;
     }
 
