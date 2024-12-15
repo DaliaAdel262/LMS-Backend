@@ -10,6 +10,7 @@ import java.util.*;
 
 
 @RestController
+@RequestMapping(value = "/api/courses")
 public class CourseController {
     @Autowired
     private CourseService courseService;
@@ -39,7 +40,7 @@ public class CourseController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<CourseEntity> getCourseById(@PathVariable String id) {
         try {
-            CourseEntity course = courseService.getCourseDetails(id);;  
+            CourseEntity course = courseService.getCourseDetails(id);  
             return ResponseEntity.ok(course); 
         } catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build(); 
