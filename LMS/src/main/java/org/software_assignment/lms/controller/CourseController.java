@@ -60,9 +60,18 @@ public class CourseController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    //    @Autowired
-//    private CourseService courseService;
-//
+
+   @PostMapping(value = "/")
+   public ResponseEntity<CourseEntity> addCourse(
+        @RequestParam  String id,
+        @RequestParam String title,
+        @RequestParam String description,
+        @RequestParam int instructorId
+   ) {
+       CourseEntity createdCourse = courseService.addCourse(id,title,description,instructorId);
+       return ResponseEntity.ok(createdCourse);
+   }
+
 //    @PostMapping
 //    public ResponseEntity<CourseEntity> addCourse(
 //            @RequestBody CourseEntity course, // validation must be added, ask entity to add validation
@@ -73,7 +82,7 @@ public class CourseController {
 //        if (!"Admin".equalsIgnoreCase(userRole)) {
 //            return ResponseEntity.status(403).body(null); // Forbidden for non-Admin users
 //        }
-//
+
 //        // Call the service layer to handle course creation
 //        CourseEntity createdCourse = courseService.addCourse(course);
 //        return ResponseEntity.ok(createdCourse);
