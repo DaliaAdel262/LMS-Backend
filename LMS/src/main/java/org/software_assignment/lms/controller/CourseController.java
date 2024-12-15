@@ -1,5 +1,5 @@
 package org.software_assignment.lms.controller;
-import org.software_assignment.lms.entity.CourseEntity;
+import org.software_assignment.lms.entity.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
@@ -34,6 +34,22 @@ public class CourseController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course or student not found.");
         }
     }
+
+    // Display all students enrolled in a course
+    @GetMapping(value = "/{courseId}/students")
+    public List<Student> getStudentsFromCourse(@PathVariable String courseId) {
+        return courseService.getStudentsByCourseId(courseId);
+    }
+    @PostMapping("/{courseId}/questions/add")
+    public ResponseEntity<String> addQuestionToCourse(
+            @PathVariable String courseId,
+            @RequestParam String question,
+            @RequestParam String answer) {
+        String result = courseService.addQuestionToCourse(courseId, question, answer);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
+    }
+
+
 
 
 }

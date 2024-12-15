@@ -1,6 +1,8 @@
 package org.software_assignment.lms.service;
 import org.software_assignment.lms.entity.*;
+import org.software_assignment.lms.repository.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Arrays;
@@ -10,6 +12,12 @@ import java.util.Map;
 
 @Service
 public class CourseService {
+    private final CourseRepository courseRepository;
+
+    @Autowired
+    public CourseService(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
     private List<CourseEntity> data = new ArrayList<>(Arrays.asList(
             new CourseEntity(
                     "1",
@@ -42,7 +50,7 @@ public class CourseService {
 
     //get all courses
    public List<CourseEntity>findAll(){
-        return data;
+     return  courseRepository.findAll();
     }
 public boolean deleteStudent( String courseId,int studentId){
  for(CourseEntity course:data){
@@ -65,4 +73,27 @@ public boolean deleteStudent( String courseId,int studentId){
    return false;
 
    }
+   //display enrolled students in course
+    public List<Student> getStudentsByCourseId(String courseId) {
+        for (CourseEntity course : data) {
+            if (course.getId().equals(courseId)) {
+                return course.getEnrolledStudents();
+            }
+        }
+        return new ArrayList<>();
+    }
+    public String addQuestionToCourse(String courseId, String question, String answer) {
+        for (CourseEntity course : data) {
+            if (course.getId().equals(courseId)) {
+                if (course.getQuestionBank() == null) {
+                    throw new IllegalStateException("Question bank is not initialized for this course");
+                }
+                course.getQuestionBank().put(question, answer); // Add question-answer pair
+                return "Question added successfully";
+            }
+        }
+        throw new IllegalArgumentException("Course with ID " + courseId + " not found");
+    }
+
+
 }
