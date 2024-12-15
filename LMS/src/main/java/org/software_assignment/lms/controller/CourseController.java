@@ -16,15 +16,17 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/greetings")
     public String greetings(){
         return "Hello World";
 
     }
-    @GetMapping(value = "/courses")
+
+    @GetMapping(value = "/")
     public List<CourseEntity>getAllCourses() {
         return courseService.findAll();
     }
+
     //delete student from course
     @DeleteMapping(value = "/{courseId}/students/{studentId}")
     public ResponseEntity<String> deleteStudentFromCourse(@PathVariable String  courseId,@PathVariable int studentId){
@@ -37,25 +39,22 @@ public class CourseController {
         }
     }
 
-    //    @Autowired
-//    private CourseService courseService;
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<String> deleteCourse(
-//            @PathVariable String id,
-//            @RequestHeader("role") String userRole
-//    ) {
-//        // Verify the user's role in the controller
-//        if (!"Admin".equalsIgnoreCase(userRole)) {
-//            return ResponseEntity.status(403).body(null); // Forbidden for non-Admin users
-//        }
-//        try {
-//            courseService.deleteCourseById(id);
-//            return ResponseEntity.ok("Course deleted successfully!");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found: " + e.getMessage());
-//        }
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCourse(
+            @PathVariable String id,
+            @RequestHeader("role") String userRole
+    ) {
+        // Verify the user's role in the controller
+        if (!"Admin".equalsIgnoreCase(userRole)) {
+            return ResponseEntity.status(403).body(null); // Forbidden for non-Admin users
+        }
+        try {
+            courseService.deleteCourseById(id);
+            return ResponseEntity.ok("Course deleted successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found: " + e.getMessage());
+        }
+    }
 
 
 }
