@@ -38,7 +38,6 @@ public class CourseRepository {
     )
 ));
 
-
     public List<CourseEntity> findAll() {
         return new ArrayList<>(courses);
     }

@@ -7,6 +7,8 @@ import org.software_assignment.lms.entity.CourseEntity;
 import org.software_assignment.lms.entity.*;
 import org.software_assignment.lms.repository.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
@@ -51,6 +53,14 @@ public class CourseService {
        courseRepository.deleteById(id);
    }
 
+
+   public CourseEntity getCourseDetails(String id){
+     CourseEntity course = courseRepository.findById(id);
+     if (course == null) {
+        throw new NoSuchElementException("Course with ID " + id + " does not exist.");
+     }
+     return course;
+   }
    //display enrolled students in course
     public List<Student> getStudentsByCourseId(String courseId) {
         List<CourseEntity> data = courseRepository.findAll();    
@@ -63,7 +73,7 @@ public class CourseService {
     }
     
     public String addQuestionToCourse(String courseId, String question, String answer) {
-        List<CourseEntity> data = courseRepository.findAll();   
+        List<CourseEntity> data = courseRepository.findAll();    
         for (CourseEntity course : data) {
             if (course.getId().equals(courseId)) {
                 if (course.getQuestionBank() == null) {
