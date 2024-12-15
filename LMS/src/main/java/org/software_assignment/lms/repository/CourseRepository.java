@@ -1,13 +1,41 @@
 package org.software_assignment.lms.repository;
 
 import java.util.*;
-import org.software_assignment.lms.entity.CourseEntity;
+import org.software_assignment.lms.entity.*;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class CourseRepository {
 
-    private final List<CourseEntity> courses = new ArrayList<>();
+    private List<CourseEntity> courses = new ArrayList<>(List.of(
+    new CourseEntity(
+        "CS211",
+        "Java Basics",
+        "Introduction to Java programming",
+        30,
+        101,
+        new ArrayList<>(List.of(
+            new LessonEntity(1, "Lesson 1", "Introduction to Java", "1"),
+            new LessonEntity(2, "Lesson 2", "Data types in Java", "1"),
+            new LessonEntity(3, "Lesson 3", "Control structures in Java", "1")
+        )),
+        new ArrayList<>(List.of(
+            new AssignmentEntity(1, "Assignment 1", "Write a Java program", "2024-12-01", "1"),
+            new AssignmentEntity(2, "Assignment 2", "Implement a Java class", "2024-12-10", "1")
+        )),
+        new ArrayList<>(List.of(
+            new QuizEntity(1, "Quiz 1", "1", "Java Basics Quiz", 10)
+        )),
+        new ArrayList<>(List.of(
+            new Student(1, "Mariam", "2005", "mariameid33@gmail.com", "ra5"),
+            new Student(2, "Bob", "1999-02-02", "bob@example.com", "password456")
+        )),
+        new HashMap<>(Map.of(
+            "What is Java?", "A programming language",
+            "What is JVM?", "Java Virtual Machine"
+        ))
+      )
+    ));
 
     public List<CourseEntity> findAll() {
         return new ArrayList<>(courses);

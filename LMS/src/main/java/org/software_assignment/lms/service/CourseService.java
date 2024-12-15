@@ -1,55 +1,28 @@
 package org.software_assignment.lms.service;
 import org.software_assignment.lms.entity.*;
-
+import org.software_assignment.lms.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CourseService {
-    private List<CourseEntity> data = new ArrayList<>(Arrays.asList(
-            new CourseEntity(
-                    "1",
-                    "Java Basics",
-                    "Introduction to Java programming",
-                    30,
-                    101,
-                    new ArrayList<>(List.of(
-                            new LessonEntity(1, "Lesson 1", "Introduction to Java", "1"),
-                            new LessonEntity(2, "Lesson 2", "Data types in Java", "1"),
-                            new LessonEntity(3, "Lesson 3", "Control structures in Java", "1")
-                    )),
-                    new ArrayList<>(List.of(
-                            new AssignmentEntity(1, "Assignment 1", "Write a Java program", "2024-12-01", "1"),
-                            new AssignmentEntity(2, "Assignment 2", "Implement a Java class", "2024-12-10", "1")
-                    )),
-                    new ArrayList<>(List.of(
-                            new QuizEntity(1, "Quiz 1", "1", "Java Basics Quiz", 10)
-                    )),
-                    new ArrayList<>(List.of(
-                            new Student(1, "Mariam", "2005", "mariameid33@gmail.com", "ra5"),
-                            new Student(2, "Bob", "1999-02-02", "bob@example.com", "password456")
-                    )),
-                    new HashMap<>(Map.of(
-                            "What is Java?", "A programming language",
-                            "What is JVM?", "Java Virtual Machine"
-                    ))
-            )
-    ));
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     //get all courses
    public List<CourseEntity>findAll(){
-        return data;
+        return courseRepository.findAll();
     }
-public boolean deleteStudent( String courseId,int studentId){
- for(CourseEntity course:data){
-    if(course.getId().equals(courseId)){
+    
+   public boolean deleteStudent( String courseId,int studentId){
+     List<CourseEntity> data = courseRepository.findAll();
+     for(CourseEntity course:data){
+       if(course.getId().equals(courseId)){
        //search for student that is found in array of enrolled students in this course
-      String studentIdStr=String.valueOf(studentId);
-      List<Student> enrolledStudents = course.getEnrolledStudents();
+        String studentIdStr=String.valueOf(studentId);
+        List<Student> enrolledStudents = course.getEnrolledStudents();
        if (enrolledStudents != null && enrolledStudents.contains(studentIdStr)) {
           enrolledStudents.remove(studentIdStr);
           course.setEnrolledStudents(enrolledStudents);//modified enrolled students after removal
@@ -61,8 +34,16 @@ public boolean deleteStudent( String courseId,int studentId){
        }
     }
 
- } System.out.println("Course with ID " + courseId + " not found.");
+   } System.out.println("Course with ID " + courseId + " not found.");
    return false;
 
+   }
+
+   public CourseEntity getCourseDetails(String id){
+     CourseEntity course = courseRepository.findById(id);
+     if (course == null) {
+        throw new NoSuchElementException("Course with ID " + id + " does not exist.");
+     }
+     return course;
    }
 }
