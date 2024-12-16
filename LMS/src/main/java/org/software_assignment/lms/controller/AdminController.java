@@ -18,7 +18,7 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @PostMapping("admin/add")
+    @PostMapping("admin/addAdmin")
     public ResponseEntity<Map<String, String>> addAdmin(@RequestBody Admin admin) {
         try {
             if (admin == null) {
@@ -36,7 +36,7 @@ public class AdminController {
         }
     }
 
-    @DeleteMapping("/admin/{id}/delete")
+    @DeleteMapping("/admin/deleteAdmin/{id}")
     public ResponseEntity<Map<String, String>> deleteAdmin(@PathVariable("id") int id) {
         try {
             adminService.deleteAdmin(id);
@@ -49,12 +49,12 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/admin/all")
+    @GetMapping("/admin/allAdmins")
     public List<Admin> getAllAdmins() {
         return adminService.getAllAdmins();
     }
 
-    @PatchMapping("/admin/{id}/update")
+    @PatchMapping("/admin/{id}/updateAdmin")
     public ResponseEntity<Map<String, String>> updateAdmin(@PathVariable("id") int id, @RequestBody Admin admin) {
         try {
             if (admin == null) {
@@ -74,7 +74,7 @@ public class AdminController {
         }
     }
     
-    @GetMapping("/admin/{id}")
+    @GetMapping("/admin/getAdmin/{id}")
     public ResponseEntity<Map<String , Admin>> getAdminById(@PathVariable("id") int id) {
         try {
             Admin admin = adminService.getAdminById(id);
