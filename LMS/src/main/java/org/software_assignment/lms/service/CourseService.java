@@ -35,7 +35,28 @@ public class CourseService {
                             new AssignmentEntity(2, "Assignment 2", "Implement a Java class", "2024-12-10", "1")
                     )),
                     new ArrayList<>(List.of(
-                            new QuizEntity(1, "Quiz 1", "1", "Java Basics Quiz", 10)
+                            new QuizEntity(
+                                    1,
+                                    "Quiz 1",
+                                    "1",
+                                    3,
+                                    new HashMap<>(Map.of(
+                                            "What is Java?", "A programming language",
+                                            "What is JVM?", "Java Virtual Machine",
+                                            "Explain OOP concepts in Java", "Inheritance, Polymorphism, Encapsulation, Abstraction"
+                                    ))
+                            ),
+                            new QuizEntity(
+                                    2,
+                                    "Quiz 2",
+                                    "1",
+                                    3,
+                                    new HashMap<>(Map.of(
+                                            "What are Java data types?", "Primitive and Non-Primitive",
+                                            "Explain the use of 'final' keyword", "To define constants or prevent inheritance",
+                                            "What is the purpose of garbage collection?", "To free up unused memory"
+                                    ))
+                            )
                     )),
                     new ArrayList<>(List.of(
                             new Student(1, "Mariam", "2005", "mariameid33@gmail.com", "ra5"),
@@ -48,32 +69,51 @@ public class CourseService {
             )
     ));
 
+
+
     //get all courses
    public List<CourseEntity>findAll(){
-     return  courseRepository.findAll();
-    }
-public boolean deleteStudent( String courseId,int studentId){
- for(CourseEntity course:data){
-    if(course.getId().equals(courseId)){
-       //search for student that is found in array of enrolled students in this course
-      String studentIdStr=String.valueOf(studentId);
-      List<Student> enrolledStudents = course.getEnrolledStudents();
-       if (enrolledStudents != null && enrolledStudents.contains(studentIdStr)) {
-          enrolledStudents.remove(studentIdStr);
-          course.setEnrolledStudents(enrolledStudents);//modified enrolled students after removal
-          System.out.println("Student with ID " + studentId + " removed from course " + courseId);
-          return true;
-       } else {
-          System.out.println("Student with ID " + studentId + " not found in course " + courseId);
-          return false;
-       }
+     return  data;
     }
 
- } System.out.println("Course with ID " + courseId + " not found.");
-   return false;
+    public boolean deleteStudent(String courseId, int studentId) {
 
-   }
-   //display enrolled students in course
+        for (CourseEntity course : data) {
+
+            if (course.getId().equals(courseId)) {
+                List<Student> enrolledStudents = course.getEnrolledStudents();
+
+                if (enrolledStudents != null) {
+                    Student studentToRemove = null;
+                    for (Student student : enrolledStudents) {
+                        if (student.getId() == studentId) {
+                            studentToRemove = student;
+                            break;
+                        }
+                    }
+
+                    // If the student is found, remove it from the list
+                    if (studentToRemove != null) {
+                        enrolledStudents.remove(studentToRemove);
+                        course.setEnrolledStudents(enrolledStudents);  // Update the list of enrolled students
+                        System.out.println("Student with ID " + studentId + " removed from course " + courseId);
+                        return true;
+                    } else {
+                        System.out.println("Student with ID " + studentId + " not found in course " + courseId);
+                        return false;
+                    }
+                } else {
+                    System.out.println("No students enrolled in course " + courseId);
+                    return false;
+                }
+            }
+        }
+
+        System.out.println("Course with ID " + courseId + " not found.");
+        return false;
+    }
+
+    //display enrolled students in course
     public List<Student> getStudentsByCourseId(String courseId) {
         for (CourseEntity course : data) {
             if (course.getId().equals(courseId)) {

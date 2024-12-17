@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 import java.util.List;
 @RestController
+
 public class CourseController {
     @Autowired
     private CourseService courseService;

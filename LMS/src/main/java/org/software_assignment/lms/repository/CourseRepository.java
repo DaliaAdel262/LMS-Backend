@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CourseRepository {
 
+
     private final List<CourseEntity> courses = new ArrayList<>();
 
     public List<CourseEntity> findAll() {
