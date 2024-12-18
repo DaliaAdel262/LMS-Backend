@@ -1,16 +1,20 @@
 package org.software_assignment.lms.entity;
 
+import java.util.*;
+
 public class LessonEntity {
     private int id;
     private String title;
     private String content;
     private String courseId;
+    private List<Student> studentsAttended;
     public LessonEntity() {}
     public LessonEntity(int id, String title, String content, String courseId) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.courseId = courseId;
+        this.studentsAttended = new ArrayList<>();
     }
 
     public int getId() {
