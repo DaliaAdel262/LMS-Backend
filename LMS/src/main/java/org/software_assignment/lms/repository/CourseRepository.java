@@ -77,7 +77,7 @@ public class CourseRepository {
     }
 
     public CourseEntity save(CourseEntity course) {
-        if(findById(course.getId()).equals(null)){
+        if(findById(course.getId())== null){
             courses.add(course);
         }else{
             deleteById(course.getId());

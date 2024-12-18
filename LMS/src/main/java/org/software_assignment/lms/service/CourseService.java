@@ -12,6 +12,10 @@ public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
+    public CourseService(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
+
     //get all courses
     public List<CourseEntity>findAll(){
         return courseRepository.findAll();
@@ -88,6 +92,16 @@ public class CourseService {
         }
         throw new IllegalArgumentException("Course with ID " + courseId + " not found");
     }
+
+   public CourseEntity addCourse(String id, String title, String desc, int instructorID) {
+       CourseEntity course = new CourseEntity(); 
+       course.setId(id);
+       course.setTitle(title);
+       course.setDescription(desc);
+       course.setInstructorId(instructorID);
+       course.setDuration(0);
+       return courseRepository.save(course);
+   }
 
 
 }
