@@ -1,72 +1,73 @@
 package org.software_assignment.lms.controller;
-import org.software_assignment.lms.entity.Admin;
 import org.software_assignment.lms.entity.UserEntity;
 import org.software_assignment.lms.repository.CourseRepository;
 import org.software_assignment.lms.repository.UserRepository;
+import org.software_assignment.lms.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.web.servlet.function.ServerResponse.status;
+import java.util.Map;
 
-@RestController
+
+@RestController()
 public class UserController {
+    private final UserService userService;
     UserRepository UserRepo = new UserRepository();
+    UserService UserService = new UserService();
     CourseRepository courseRepo;
 
-    @RequestMapping("/user/{id}")
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/api/auth/user/{id}")
     public UserEntity getUser(@PathVariable("id") int userId) {
-        UserEntity user = UserRepo.findUserbyId(userId);
-        return user;
+        try {
+            return userService.findUserbyId(userId);
+        }
+        catch (Exception e) {
+            return new UserEntity();
+        }
     }
 
-    @PostMapping("/create/{id}")
-    public Boolean createUser(@PathVariable("id") int id, @RequestBody UserEntity newUser) {
-            UserEntity adminUser = UserRepo.findUserbyId(id);
-            if(adminUser instanceof Admin) {
-                UserRepo.addUser(newUser);
-                return true;
-            }
-            return false;
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/api/auth/register")
+    public String createUser(@RequestBody UserEntity newUser) {
+        try {
+             userService.register(newUser);
+             return "User registered successfully";
+        }
+        catch (Exception e) {
+            return e.getMessage();
+        }
     }
-
-    @DeleteMapping("/delete/{adminId}/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("/api/auth/delete/{userID}")
     public ResponseEntity<String> deleteUser(
-            @PathVariable("adminId") int adminId,
-            @PathVariable("userId") int userId) {
-        // Retrieve the admin user
-        UserEntity adminUser = UserRepo.findUserbyId(adminId);
-
-        if (adminUser == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Admin user not found.");
+            @PathVariable("userID") int userId) {
+        try {
+            userService.deleteUser(userId);
+            return new ResponseEntity<>("User deleted", HttpStatus.OK);
         }
-
-        // Check if the requester is an admin
-        if (!(adminUser instanceof Admin)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Only admins can delete users.");
+        catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-        // Retrieve the user to be deleted
-        UserEntity userToDelete = UserRepo.findUserbyId(userId);
-
-        if (userToDelete == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
-        }
-
-
-        // Delete the user
-        UserRepo.deleteUser(userToDelete);
-
-        return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully.");
     }
 
+    @GetMapping("/api/auth/login")
+    public ResponseEntity<?> login(@RequestBody UserEntity userEntity) {
+        try {
+            String token= userService.login(userEntity.getEmail() , userEntity.getPassword());
+            return ResponseEntity.ok(Map.of("token", token));
 
-
-
-
-
-
-
-
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
 
 }
+
+
