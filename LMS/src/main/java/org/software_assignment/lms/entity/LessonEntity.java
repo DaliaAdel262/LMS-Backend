@@ -57,4 +57,10 @@ public class LessonEntity {
     public String getOTP(){
         return this.OTP;
     }
+
+    public void addStudent(Student student){
+        if (!studentsAttended.contains(student)) { 
+            studentsAttended.add(student);
+        }
+    }
 }

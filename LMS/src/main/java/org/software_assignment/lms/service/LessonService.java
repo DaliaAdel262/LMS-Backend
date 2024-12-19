@@ -31,10 +31,24 @@ public class LessonService {
             if (!courseService.isStudentEnrolled(courseID, studentID)) {
                 throw new SecurityException("Student is not authorized to access this course");
             }
-
+            markAttendance(studentID, lessonID);
             return lesson.getOTP();
         }else{
             throw new NoSuchElementException("Lesson not found");
         }
+    }
+
+    public void markAttendance(int studentID, int lessonID){
+        LessonEntity lesson = lessonRepository.findbyId(lessonID);
+        if (lesson == null) {
+            throw new NoSuchElementException("Lesson not found");
+        }
+        List<Student> studentsAttended = lesson.getStudentsAttended();
+        for(Student student:studentsAttended){
+            if(student.getId() == studentID){
+                return;
+            }
+        }
+        // need logic for getting instance of student to add to array, then add student and save lesson with lessonRepository
     }
 }
