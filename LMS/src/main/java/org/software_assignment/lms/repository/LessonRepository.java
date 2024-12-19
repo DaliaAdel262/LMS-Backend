@@ -7,7 +7,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class LessonRepository{
-    private List<LessonEntity> lessons = new ArrayList<>();
+    private List<LessonEntity> lessons = new ArrayList<>(Arrays.asList(
+            new LessonEntity(1, "Lesson 1", "Introduction to Java", "1"),
+            new LessonEntity(2, "Lesson 2", "Data types in Java", "1")
+    ));
 
     public LessonEntity findbyId(int lessonID){
         for (LessonEntity lesson : lessons) {

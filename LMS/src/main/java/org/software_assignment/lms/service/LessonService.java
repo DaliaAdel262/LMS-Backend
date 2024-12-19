@@ -49,4 +49,22 @@ public class LessonService {
             lessonRepository.save(lesson);
         }
     }
+    public String generateOTP(int lessonID) {
+        LessonEntity lesson = lessonRepository.findbyId(lessonID);
+        if (lesson == null) {
+            throw new NoSuchElementException("Lesson not found");
+        }
+        String otp = String.format("%04d", new Random().nextInt(10000)); // Generates a 4-digit OTP
+        lesson.setOTP(otp);
+        lessonRepository.save(lesson);
+        return otp;
+    }
+    public LessonEntity displayLesson(int lessonID) {
+        LessonEntity lesson = lessonRepository.findbyId(lessonID);
+        if (lesson == null) {
+            throw new NoSuchElementException("Lesson not found");
+        }
+        return lesson;
+    }
+
 }
