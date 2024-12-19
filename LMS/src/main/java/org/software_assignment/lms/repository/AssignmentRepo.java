@@ -7,31 +7,32 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class AssignmentRepo {
-    private List<AssignmentEntity> assignments = new ArrayList<>;
-    public List<CourseEntity> findAll() {
-        return new ArrayList<>(courses);
+    private List<AssignmentEntity> assignments = new ArrayList<>();
+
+    public List<AssignmentEntity> findAll() {
+        return new ArrayList<>(assignments);
     }
 
-    public CourseEntity findById(String id) {
-        for (CourseEntity course : courses) {
-            if (course.getId().equals(id)) {
-                return course;
+    public AssignmentEntity findById(int id) {
+        for (AssignmentEntity assignment : assignments) {
+            if (assignment.getAssignmentID() == id) {
+                return assignment;
             }
         }
         return null;
     }
 
-    public boolean deleteById(String id) {
-        return courses.removeIf(course -> course.getId().equals(id));
+    public boolean deleteById(int id) {
+        return assignments.removeIf(assignment -> assignment.getAssignmentID() == id);
     }
 
-    public CourseEntity save(CourseEntity course) {
-        if(findById(course.getId()).equals(null)){
-            courses.add(course);
+    public AssignmentEntity save(AssignmentEntity assignment) {
+        if(findById(assignment.getAssignmentID()) == null){
+            assignments.add(assignment);
         }else{
-            deleteById(course.getId());
-            courses.add(course);
+            deleteById(assignment.getAssignmentID());
+            assignments.add(assignment);
         }
-        return course;
+        return assignment;
     }
 }
