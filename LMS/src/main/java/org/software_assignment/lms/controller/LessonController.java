@@ -19,7 +19,7 @@ public class LessonController {
     @Autowired
     private LessonService lessonService;
     
-    @GetMapping(value = "/api/lessons/{lesson_id}/courses/{course_id}/otp")
+    @GetMapping(value = "/{lesson_id}/courses/{course_id}/otp")
     public ResponseEntity<String> retrieveOTP(@RequestParam int studentID, @PathVariable int lessonID, @PathVariable String courseID){
         try{
             String otp = lessonService.getOTP(studentID, lessonID, courseID);
@@ -30,4 +30,5 @@ public class LessonController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
     }
+
 }

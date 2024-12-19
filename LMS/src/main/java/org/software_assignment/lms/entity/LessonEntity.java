@@ -7,7 +7,7 @@ public class LessonEntity {
     private String title;
     private String content;
     private String courseId;
-    private List<Student> studentsAttended;
+    private List<Integer> studentsAttended;
     private String OTP;
     public LessonEntity() {}
     public LessonEntity(int id, String title, String content, String courseId) {
@@ -46,7 +46,7 @@ public class LessonEntity {
         this.courseId = courseId;
     }
 
-    public List<Student> getStudentsAttended(){
+    public List<Integer> getStudentsAttended(){
         return this.studentsAttended;
     }
 
@@ -58,9 +58,9 @@ public class LessonEntity {
         return this.OTP;
     }
 
-    public void addStudent(Student student){
-        if (!studentsAttended.contains(student)) { 
-            studentsAttended.add(student);
+    public void addStudent(int studentID){
+        if (!studentsAttended.contains(studentID)) { 
+            studentsAttended.add(studentID);
         }
     }
 }

@@ -43,12 +43,10 @@ public class LessonService {
         if (lesson == null) {
             throw new NoSuchElementException("Lesson not found");
         }
-        List<Student> studentsAttended = lesson.getStudentsAttended();
-        for(Student student:studentsAttended){
-            if(student.getId() == studentID){
-                return;
-            }
+        List<Integer> studentsAttended = lesson.getStudentsAttended();
+        if (!studentsAttended.contains(studentID)) {
+            lesson.addStudent(studentID);
+            lessonRepository.save(lesson);
         }
-        // need logic for getting instance of student to add to array, then add student and save lesson with lessonRepository
     }
 }
