@@ -8,6 +8,7 @@ public class LessonEntity {
     private String content;
     private String courseId;
     private List<Student> studentsAttended;
+    private String OTP;
     public LessonEntity() {}
     public LessonEntity(int id, String title, String content, String courseId) {
         this.id = id;
@@ -43,5 +44,17 @@ public class LessonEntity {
     }
     public void setCourseId(String courseId) {
         this.courseId = courseId;
+    }
+
+    public List<Student> getStudentsAttended(){
+        return this.studentsAttended;
+    }
+
+    public void setOTP(String otp){
+        this.OTP = otp;
+    }
+
+    public String getOTP(){
+        return this.OTP;
     }
 }

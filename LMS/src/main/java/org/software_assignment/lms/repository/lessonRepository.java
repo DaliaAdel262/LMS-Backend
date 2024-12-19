@@ -6,7 +6,7 @@ import org.software_assignment.lms.entity.LessonEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class lessonRepository {
+public class LessonRepository{
     private List<LessonEntity> lessons = new ArrayList<>();
 
     public LessonEntity findbyId(int lessonID){

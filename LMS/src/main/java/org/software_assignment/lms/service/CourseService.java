@@ -103,5 +103,18 @@ public class CourseService {
        return courseRepository.save(course);
    }
 
-
+   public boolean isStudentEnrolled(String courseID, int studentID) {
+        CourseEntity course = courseRepository.findById(courseID);
+        if(course!=null){
+            List<Student> studentsEnrolled = course.getEnrolledStudents();
+            for(Student student:studentsEnrolled){
+                if(student.getId() == studentID){
+                    return true;
+                }
+            }
+            return false;
+        }else{
+            throw new NoSuchElementException("Course not found");
+        }
+    }
 }
