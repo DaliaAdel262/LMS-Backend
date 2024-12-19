@@ -86,7 +86,8 @@ public class CourseService {
                 if (course.getQuestionBank() == null) {
                     throw new IllegalStateException("Question bank is not initialized for this course");
                 }
-                course.getQuestionBank().put(question, answer); // Add question-answer pair
+                course.getQuestionBank().put(question, answer);
+                courseRepository.save(course);
                 return "Question added successfully";
             }
         }
