@@ -7,7 +7,24 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class AssignmentRepo {
-    private List<AssignmentEntity> assignments = new ArrayList<>();
+    private List<AssignmentEntity> assignments = new ArrayList<>(Arrays.asList(
+        new AssignmentEntity(
+                1, 
+                "Assignment 1", 
+                "Write a Java program", 
+                "2024-12-01", 
+                "src/main/resources/assignment-files/Advanced SWE - Project 2024.pdf", 
+                "1" 
+        ),
+            new AssignmentEntity(
+                2, 
+                "Assignment 2", 
+                "Implement a Java class", 
+                "2025-01-05", 
+                "src/main/resources/assignment-files/Advanced SWE - Project 2024.pdf", 
+                "1" 
+        )
+    ));
 
     public List<AssignmentEntity> findAll() {
         return new ArrayList<>(assignments);

@@ -22,7 +22,7 @@ public class CourseRepository {
                     )),
                     new ArrayList<>(List.of(
                             new AssignmentEntity(1, "Assignment 1", "Write a Java program", "2024-12-01", "src/main/resources/assignment-files/Advanced SWE - Project 2024.pdf", "1"),
-                            new AssignmentEntity(2, "Assignment 2", "Implement a Java class", "2024-12-10", "src/main/resources/assignment-files/Advanced SWE - Project 2024.pdf", "1")
+                            new AssignmentEntity(2, "Assignment 2", "Implement a Java class", "2025-01-05", "src/main/resources/assignment-files/Advanced SWE - Project 2024.pdf", "1")
                     )),
                     new ArrayList<>(List.of(
                             new QuizEntity(
