@@ -1,13 +1,12 @@
 package org.software_assignment.lms.controller;
 import org.software_assignment.lms.entity.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-
-import org.software_assignment.lms.service.CourseService;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.util.*;
 import org.software_assignment.lms.entity.CourseEntity;
+import org.software_assignment.lms.service.CourseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import java.util.*;s
 
 @RestController
 @RequestMapping(value = "/api/courses")
@@ -21,6 +20,17 @@ public class CourseController {
     }
 
     
+    @PostMapping(value = "/")
+   public ResponseEntity<CourseEntity> addCourse(
+        @RequestParam  String id,
+        @RequestParam String title,
+        @RequestParam String description,
+        @RequestParam int instructorId
+   ) {
+       CourseEntity createdCourse = courseService.addCourse(id,title,description,instructorId);
+       return ResponseEntity.ok(createdCourse);
+   }
+
     @GetMapping(value = "/")
     public List<CourseEntity>getAllCourses() {
         return courseService.findAll();
@@ -71,10 +81,10 @@ public class CourseController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<CourseEntity> getCourseById(@PathVariable String id) {
         try {
-            CourseEntity course = courseService.getCourseDetails(id);  
-            return ResponseEntity.ok(course); 
+            CourseEntity course = courseService.getCourseDetails(id);
+            return ResponseEntity.ok(course);
         } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build(); 
+            return ResponseEntity.notFound().build();
         }
     }
     // Display all students enrolled in a course
@@ -83,6 +93,7 @@ public class CourseController {
         return courseService.getStudentsByCourseId(courseId);
     }
     
+    //add question to question bank
     @PostMapping("/{courseId}/questions/add")
     public ResponseEntity<String> addQuestionToCourse(
             @PathVariable String courseId,
@@ -94,3 +105,4 @@ public class CourseController {
 
 
 }
+
