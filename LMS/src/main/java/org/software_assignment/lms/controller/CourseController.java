@@ -6,7 +6,7 @@ import org.software_assignment.lms.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;s
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/api/courses")
