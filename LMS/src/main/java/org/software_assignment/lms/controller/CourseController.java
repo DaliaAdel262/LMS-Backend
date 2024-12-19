@@ -1,11 +1,11 @@
 package org.software_assignment.lms.controller;
-import org.software_assignment.lms.entity.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-
+import org.software_assignment.lms.entity.CourseEntity;
 import org.software_assignment.lms.service.CourseService;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.software_assignment.lms.entity.*;
 import java.util.*;
 
 
@@ -19,6 +19,17 @@ public class CourseController {
     public String greetings(){
         return "Hello World";
     }
+
+    @PostMapping(value = "/")
+   public ResponseEntity<CourseEntity> addCourse(
+        @RequestParam  String id,
+        @RequestParam String title,
+        @RequestParam String description,
+        @RequestParam int instructorId
+   ) {
+       CourseEntity createdCourse = courseService.addCourse(id,title,description,instructorId);
+       return ResponseEntity.ok(createdCourse);
+   }
 
     @GetMapping(value = "/")
     public List<CourseEntity>getAllCourses() {
@@ -63,3 +74,4 @@ public class CourseController {
 
 
 }
+
