@@ -1,6 +1,7 @@
 package org.software_assignment.lms.repository;
 
 import java.util.*;
+
 import org.software_assignment.lms.entity.*;
 import org.springframework.stereotype.Repository;
 
@@ -20,8 +21,8 @@ public class CourseRepository {
                             new LessonEntity(3, "Lesson 3", "Control structures in Java", "1")
                     )),
                     new ArrayList<>(List.of(
-                            new AssignmentEntity(1, "Assignment 1", "Write a Java program", "2024-12-01", "1"),
-                            new AssignmentEntity(2, "Assignment 2", "Implement a Java class", "2024-12-10", "1")
+                            new AssignmentEntity(1, "Assignment 1", "Write a Java program", "2024-12-01", "src/main/resources/assignment-files/Advanced SWE - Project 2024.pdf", "1"),
+                            new AssignmentEntity(2, "Assignment 2", "Implement a Java class", "2024-12-10", "src/main/resources/assignment-files/Advanced SWE - Project 2024.pdf", "1")
                     )),
                     new ArrayList<>(List.of(
                             new QuizEntity(

@@ -1,13 +1,12 @@
 package org.software_assignment.lms.controller;
+import org.software_assignment.lms.entity.*;
+import org.springframework.http.ResponseEntity;
 import org.software_assignment.lms.entity.CourseEntity;
 import org.software_assignment.lms.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.software_assignment.lms.entity.*;
 import java.util.*;
-
 
 @RestController
 @RequestMapping(value = "/api/courses")
@@ -20,6 +19,7 @@ public class CourseController {
         return "Hello World";
     }
 
+    
     @PostMapping(value = "/")
    public ResponseEntity<CourseEntity> addCourse(
         @RequestParam  String id,
@@ -36,6 +36,7 @@ public class CourseController {
         return courseService.findAll();
     }
 
+    
     //delete student from course
     @DeleteMapping(value = "/{courseId}/students/{studentId}")
     public ResponseEntity<String> deleteStudentFromCourse(@PathVariable String  courseId,@PathVariable int studentId){
@@ -48,6 +49,18 @@ public class CourseController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCourse(
+            @PathVariable String id
+    ) {
+        try {
+            courseService.deleteCourseById(id);
+            return ResponseEntity.ok("Course deleted successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found: " + e.getMessage());
+        }
+    }
+    
     @GetMapping(value = "/{id}")
     public ResponseEntity<CourseEntity> getCourseById(@PathVariable String id) {
         try {
@@ -62,6 +75,7 @@ public class CourseController {
     public List<Student> getStudentsFromCourse(@PathVariable String courseId) {
         return courseService.getStudentsByCourseId(courseId);
     }
+    
     //add question to question bank
     @PostMapping("/{courseId}/questions/add")
     public ResponseEntity<String> addQuestionToCourse(

@@ -19,7 +19,7 @@ public class LessonRepository{
     }
 
     public List<LessonEntity> findAll(){
-        return lessons;
+        return new ArrayList<>(lessons);
     }
 
     public boolean deleteById(int id){
