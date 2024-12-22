@@ -1,16 +1,21 @@
 package org.software_assignment.lms.service;
-import org.software_assignment.lms.entity.*;
-import org.software_assignment.lms.repository.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.software_assignment.lms.entity.CourseEntity;
+import org.software_assignment.lms.entity.*;
+import org.software_assignment.lms.repository.*;
 import java.util.*;
 
 @Service
 public class CourseService {
-
+    
     @Autowired
     private CourseRepository courseRepository;
+
+    public CourseService(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
 
     //get all courses
     public List<CourseEntity>findAll(){
@@ -56,7 +61,12 @@ public class CourseService {
         }
     }
 
-
+    public void deleteCourseById(String id) {
+        if (courseRepository.findById(id) == null) {
+         throw new NoSuchElementException("Course with ID " + id + " does not exist.");
+        }
+        courseRepository.deleteById(id);
+    }
 
     public CourseEntity getCourseDetails(String id){
         CourseEntity course = courseRepository.findById(id);
@@ -75,6 +85,7 @@ public class CourseService {
         }
         return new ArrayList<>();
     }
+    
     public String addQuestionToCourse(String courseId, String question, String answer) {
         List<CourseEntity> data = courseRepository.findAll();
         for (CourseEntity course : data) {
@@ -82,12 +93,36 @@ public class CourseService {
                 if (course.getQuestionBank() == null) {
                     throw new IllegalStateException("Question bank is not initialized for this course");
                 }
-                course.getQuestionBank().put(question, answer); // Add question-answer pair
+                course.getQuestionBank().put(question, answer);
+                courseRepository.save(course);
                 return "Question added successfully";
             }
         }
         throw new IllegalArgumentException("Course with ID " + courseId + " not found");
     }
 
+   public CourseEntity addCourse(String id, String title, String desc, int instructorID) {
+       CourseEntity course = new CourseEntity(); 
+       course.setId(id);
+       course.setTitle(title);
+       course.setDescription(desc);
+       course.setInstructorId(instructorID);
+       course.setDuration(0);
+       return courseRepository.save(course);
+   }
 
+   public boolean isStudentEnrolled(String courseID, int studentID) {
+        CourseEntity course = courseRepository.findById(courseID);
+        if(course!=null){
+            List<Student> studentsEnrolled = course.getEnrolledStudents();
+            for(Student student:studentsEnrolled){
+                if(student.getId() == studentID){
+                    return true;
+                }
+            }
+            return false;
+        }else{
+            throw new NoSuchElementException("Course not found");
+        }
+    }
 }
