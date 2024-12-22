@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
 import org.software_assignment.lms.service.CourseService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.*;
@@ -48,7 +49,7 @@ public class CourseController {
     }
     // Display all students enrolled in a course
     @GetMapping(value = "/{courseId}/students")
-    public List<Student> getStudentsFromCourse(@PathVariable String courseId) {
+    public List<UserEntity> getStudentsFromCourse(@PathVariable String courseId) {
         return courseService.getStudentsByCourseId(courseId);
     }
     //add question to question bank
