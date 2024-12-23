@@ -5,11 +5,16 @@ import java.util.*;
 import org.software_assignment.lms.entity.LessonEntity;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @Repository
 public class LessonRepository{
     private List<LessonEntity> lessons = new ArrayList<>(Arrays.asList(
             new LessonEntity(1, "Lesson 1", "Introduction to Java", "1"),
-            new LessonEntity(2, "Lesson 2", "Data types in Java", "1")
+            new LessonEntity(2, "Lesson 2", "Data types in Java", "1"),
+            new LessonEntity(10, "Lesson 2", "Data types in Java", "course_001")
     ));
 
     public LessonEntity findbyId(int lessonID){

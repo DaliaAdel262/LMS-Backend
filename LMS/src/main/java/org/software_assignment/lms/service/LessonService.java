@@ -1,12 +1,15 @@
 package org.software_assignment.lms.service;
-
-import java.util.*;
-
+import org.software_assignment.lms.entity.CourseEntity;
 import org.software_assignment.lms.entity.LessonEntity;
-import org.software_assignment.lms.entity.Student;
+import org.software_assignment.lms.entity.UserEntity;
 import org.software_assignment.lms.repository.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Random;
 
 @Service
 public class LessonService {
@@ -67,4 +70,36 @@ public class LessonService {
         return lesson;
     }
 
+    public String attendLesson(int lessonId,int studtId,String OTP) throws Exception {
+        LessonEntity lesson = displayLesson(lessonId);
+        String actualOTP = lesson.getOTP();
+        if(Objects.equals(actualOTP, OTP)) {
+            markAttendance(studtId, lessonId);
+            return "Successfully Attended the lesson";
+        }
+        throw new Exception("Error: Wrong OTP.. \n Failed to attend the lesson");
+    }
+
+
+    public String getAttendence(int lessonId) {
+        LessonEntity lesson = lessonRepository.findbyId(lessonId);
+        List<Integer> studentsAttended =lesson.getStudentsAttended();
+
+        CourseEntity course =courseService.getCourseDetails(lesson.getCourseId());
+        List<UserEntity> studentsEnrolled = course.getEnrolledStudents();
+
+        System.out.println(lesson.getCourseId());
+
+        String output ="";
+        for(int i=0;i<studentsEnrolled.size();i++){
+            output+="Student Id: "+studentsEnrolled.get(i).getId();
+            if(studentsAttended.contains(studentsEnrolled.get(i).getId())){
+                output+=" Attended = True\n";
+
+            }
+            else  output+=" Attended = False\n";
+        }
+
+        return output;
+    }
 }

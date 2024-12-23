@@ -1,15 +1,26 @@
 package org.software_assignment.lms.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.software_assignment.lms.entity.CourseEntity;
 import org.software_assignment.lms.entity.*;
 import org.software_assignment.lms.repository.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Service
 public class CourseService {
-    
+
     @Autowired
     private CourseRepository courseRepository;
 
@@ -17,10 +28,12 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
+
     //get all courses
-    public List<CourseEntity>findAll(){
+    public List<CourseEntity> findAll() {
         return courseRepository.findAll();
     }
+
     public boolean deleteStudent(String courseId, int studentId) {
 
         List<CourseEntity> courses = courseRepository.findAll();
@@ -36,11 +49,11 @@ public class CourseService {
             return false;
         }
 
-        List<Student> enrolledStudents = course.getEnrolledStudents();
+        List<UserEntity> enrolledStudents = course.getEnrolledStudents();
 
         if (enrolledStudents != null) {
 
-            Student studentToRemove = enrolledStudents.stream()
+            UserEntity studentToRemove = enrolledStudents.stream()
                     .filter(student -> student.getId() == studentId)
                     .findFirst()
                     .orElse(null);
@@ -61,22 +74,22 @@ public class CourseService {
         }
     }
 
-    public void deleteCourseById(String id) {
+public void deleteCourseById(String id) {
         if (courseRepository.findById(id) == null) {
          throw new NoSuchElementException("Course with ID " + id + " does not exist.");
         }
         courseRepository.deleteById(id);
     }
-
-    public CourseEntity getCourseDetails(String id){
+    public CourseEntity getCourseDetails(String id) {
         CourseEntity course = courseRepository.findById(id);
         if (course == null) {
             throw new NoSuchElementException("Course with ID " + id + " does not exist.");
         }
         return course;
     }
+
     //display enrolled students in course
-    public List<Student> getStudentsByCourseId(String courseId) {
+    public List<UserEntity> getStudentsByCourseId(String courseId) {
         List<CourseEntity> data = courseRepository.findAll();
         for (CourseEntity course : data) {
             if (course.getId().equals(courseId)) {
@@ -85,7 +98,6 @@ public class CourseService {
         }
         return new ArrayList<>();
     }
-    
     public String addQuestionToCourse(String courseId, String question, String answer) {
         List<CourseEntity> data = courseRepository.findAll();
         for (CourseEntity course : data) {
@@ -101,28 +113,113 @@ public class CourseService {
         throw new IllegalArgumentException("Course with ID " + courseId + " not found");
     }
 
-   public CourseEntity addCourse(String id, String title, String desc, int instructorID) {
-       CourseEntity course = new CourseEntity(); 
-       course.setId(id);
-       course.setTitle(title);
-       course.setDescription(desc);
-       course.setInstructorId(instructorID);
-       course.setDuration(0);
-       return courseRepository.save(course);
-   }
+    public CourseEntity addCourse(String id, String title, String desc, int instructorID) {
+        CourseEntity course = new CourseEntity();
+        course.setId(id);
+        course.setTitle(title);
+        course.setDescription(desc);
+        course.setInstructorId(instructorID);
+        course.setDuration(0);
+        return courseRepository.save(course);
+    }
 
-   public boolean isStudentEnrolled(String courseID, int studentID) {
+    public boolean isStudentEnrolled(String courseID, int studentID) {
         CourseEntity course = courseRepository.findById(courseID);
-        if(course!=null){
-            List<Student> studentsEnrolled = course.getEnrolledStudents();
-            for(Student student:studentsEnrolled){
-                if(student.getId() == studentID){
+        if (course != null) {
+            List<UserEntity> studentsEnrolled = course.getEnrolledStudents();
+            for (UserEntity student : studentsEnrolled) {
+                if (student.getId() == studentID) {
                     return true;
                 }
             }
             return false;
-        }else{
+        } else {
             throw new NoSuchElementException("Course not found");
         }
+    }
+
+    public void courseEnroll(UserEntity student, String courseId) {
+        CourseEntity course = courseRepository.findById(courseId);
+        course.enrollStudet(student);
+    }
+
+    public void addMediaFile(String courseId, MediaFile mediaFile) {
+        CourseEntity course = courseRepository.findById(courseId);
+        course.addMediaFiles(mediaFile);
+    }
+
+    public String viewCourseMaterial(String courseId) {
+        CourseEntity course = getCourseDetails(courseId);
+        List<LessonEntity> lessons = course.getLessons();
+        List<MediaFile> mediaFiels = course.getMediaFiles();
+        List<AssignmentEntity> assignments = course.getAssignments();
+        List<QuizEntity> quizzes = course.getQuizzes();
+
+        String lessonDetails = "Lessons\n";
+        if (lessons != null)
+            for (int i = 0; i < lessons.size(); i++) {
+                LessonEntity lesson = lessons.get(i);
+                lessonDetails += "Lesson Title: " + lesson.getTitle() + '\n' +
+                        "Lessons Content: " + lesson.getContent() + "\n";
+            }
+        String mediaDetails = "Media Files:\n";
+        if (mediaFiels != null)
+            for (int i = 0; i < mediaFiels.size(); i++) {
+                MediaFile mediaFile = mediaFiels.get(i);
+                mediaDetails += mediaFile.getFileType() + '\n';
+            }
+        String quizDetails = "Quizzes:\n";
+        if (quizzes != null)
+            for (int i = 0; i < quizzes.size(); i++) {
+                QuizEntity quiz = quizzes.get(i);
+                quizDetails += "Quiz Title: " + quiz.getTitle() + "\n" +
+                        "Number of Questions: " + quiz.getNumberOfQuestions() + '\n';
+            }
+
+        String assignmentDetailss = "";
+        if (assignments != null)
+            for (int i = 0; i < assignments.size(); i++) {
+                AssignmentEntity assignment = assignments.get(i);
+                assignmentDetailss += "Assignemnt Title: " + assignment.getAssignmentName() + "\n" +
+                        "Assignemnt description: " + assignment.getAssignmentDescription() + '\n';
+            }
+        String output = "Course Material: \n" + lessonDetails +
+                "-------------------------------------------------\n" +
+                mediaDetails + "-------------------------------------------------\n" +
+                assignmentDetailss + "-------------------------------------------------\n" +
+                quizDetails + "-------------------------------------------------\n";
+
+        return output;
+
+
+    }
+
+    public String viewCourseMedia(String courseId) {
+        CourseEntity course = courseRepository.findById(courseId);
+        List<MediaFile> medias = course.getMediaFiles();
+        List<Path> filePaths = new ArrayList<>();
+        for (int i = 0; i < medias.size(); i++) {
+            String filePath = medias.get(i).getFileUrl();
+            Path path = Paths.get(filePath);
+            filePaths.add(path);
+        }
+        List<Resource> resources = new ArrayList<>();
+        for (int i = 0; i < filePaths.size(); i++) {
+            Resource resource = new FileSystemResource(filePaths.get(i));
+            resources.add(resource);
+        }
+        if (resources == null) {
+            throw new NoSuchElementException("File not found");
+        }
+
+        String output = "";
+        for (int i = 0; i < resources.size(); i++) {
+            output += ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resources.get(i).getFilename() + "\"")
+                    .body(resources.get(i));
+        }
+        return output;
+
     }
 }

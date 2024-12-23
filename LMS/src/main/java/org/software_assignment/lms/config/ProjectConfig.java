@@ -22,12 +22,46 @@ public class ProjectConfig {
                                 authorizeRequests.requestMatchers(
                                         "/api/auth/register",
                                         "/api/auth/delete/*"
+
                                 ).hasAuthority("ADMIN")
                                         .requestMatchers(
                                                 new AntPathRequestMatcher("/api/add/course"),
                                                 new AntPathRequestMatcher("/api/delete/std/course/{courseID}/{stdID}"),
-                                                new AntPathRequestMatcher("/api/add/quiz")
+                                                new AntPathRequestMatcher("/api/add/quiz"),
+                                                new AntPathRequestMatcher("/api/track/quiz/{quizId}"),
+                                                new AntPathRequestMatcher("/api/course/{courseId}/add/mediaFile"),
+                                                new AntPathRequestMatcher("/api/lesson/{lessonId}/generate/OTP"),
+                                                new AntPathRequestMatcher("/api/course/add/questionBank"),
+                                                new AntPathRequestMatcher("/api/assigment/grade/{assignmentID}/{student_id}"),
+                                                new AntPathRequestMatcher("/api/add/assigment"),
+                                                new AntPathRequestMatcher("/api/view/assigment/{assignmentId}/{studentId}"),
+                                                new AntPathRequestMatcher("/api/grade/assigment/{assignmentId}/{studentId}"),
+                                                new AntPathRequestMatcher("/api/track/assigment/{assignmentId}"),
+                                                new AntPathRequestMatcher("/api/track/lesson/{lessonId}")
                                         ).hasAuthority("INSTRUCTOR")
+                                            .requestMatchers(
+
+                                                    new AntPathRequestMatcher("/api/enroll/{studentId}"),
+                                                    new AntPathRequestMatcher("/api/view/courses"),
+                                                    new AntPathRequestMatcher("/api/submit/quiz/{quizId}"),
+                                                    new AntPathRequestMatcher("/api/quiz/{quizId}/feedback"),
+                                                    new AntPathRequestMatcher("/api/course/material"),
+                                                    new AntPathRequestMatcher("/api/attend/lesson/{studentId}"),
+                                                    new AntPathRequestMatcher("/api/course/media"),
+                                                    new AntPathRequestMatcher("/api/submit/assigment/{studentId}"),
+                                                    new AntPathRequestMatcher("/api/assigment/{assigmentId}/feedback")
+
+
+                                                    ).hasAuthority("STUDENT")
+                                        .requestMatchers(
+                                                new AntPathRequestMatcher("/api/view/students/course/")
+
+                                        ).hasAnyAuthority("INSTRUCTOR","ADMIN")
+                                        .requestMatchers(
+                                                new AntPathRequestMatcher("/api/assigment/{assignmentID}")
+
+                                        )
+                                        .hasAnyAuthority("INSTRUCTOR","STUDENT")
                                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(new JWTFilter(), UsernamePasswordAuthenticationFilter.class)

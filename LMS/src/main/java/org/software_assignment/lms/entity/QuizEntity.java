@@ -10,6 +10,8 @@ public class QuizEntity {
     private int numberOfQuestions;
     private Map<String, String> ModelAnswer;
     private Map<Integer, Map<String ,String >> StudentAnswers=new HashMap<>();
+
+    private Map <Integer,Integer> studentGrades = new HashMap<>();
     public QuizEntity() {}
     public QuizEntity(int id, String title, String courseId, int numberOfQuestions, Map<String, String> modelAnswer) {
         this.id = id;
@@ -58,6 +60,22 @@ public class QuizEntity {
     public void setStudentAnswers(Map<Integer, Map<String, String>> studentAnswers) {
         this.StudentAnswers = studentAnswers;
     }
+    public void addStudentAnswer(int studtId, Map<String, String> answer) {
+        StudentAnswers.put(studtId,answer);
 
+    }
 
+    public void setStudentGrades(Map<Integer, Integer> studentGrades) {
+        this.studentGrades = studentGrades;
+    }
+
+    public Map<Integer, Integer> getStudentGrades() {
+        return studentGrades;
+    }
+
+    public void addstudentGrades(int studentId, int grade){
+        if(studentGrades.containsKey(studentId))
+            studentGrades.replace(studentId,grade);
+        else studentGrades.put(studentId,grade);
+    }
 }

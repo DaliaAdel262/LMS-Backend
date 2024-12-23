@@ -1,8 +1,8 @@
 package org.software_assignment.lms.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 
 public class CourseEntity {
 
@@ -11,11 +11,12 @@ public class CourseEntity {
     private String description;
     private int duration;
     private int instructorId;
+    private List<MediaFile> mediaFiles = new ArrayList<>();
 
     private List<LessonEntity> lessons;
-    private List<AssignmentEntity> assignments;
+    private List<AssignmentEntity> assignments= new ArrayList<>();
     private List<QuizEntity> quizzes;
-    private List<Student> enrolledStudents = new ArrayList<>();
+    private List<UserEntity> enrolledStudents = new ArrayList<>();
 
     private Map<String, String> questionBank;
 
@@ -23,7 +24,7 @@ public class CourseEntity {
 
     public CourseEntity(String id, String title, String description, int duration, int instructorId,
                         List<LessonEntity> lessons, List<AssignmentEntity> assignments, List<QuizEntity> quizzes,
-                        List<Student> enrolledStudents, Map<String, String> questionBank) {
+                        List<UserEntity> enrolledStudents, Map<String, String> questionBank) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -35,6 +36,7 @@ public class CourseEntity {
         this.enrolledStudents = enrolledStudents;
         this.questionBank = questionBank;
     }
+
     public String getId() {
         return id;
     }
@@ -99,11 +101,11 @@ public class CourseEntity {
         this.quizzes = quizzes;
     }
 
-    public List<Student > getEnrolledStudents() {
+    public List<UserEntity > getEnrolledStudents() {
         return enrolledStudents;
     }
 
-    public void setEnrolledStudents(List<Student> enrolledStudents) {
+    public void setEnrolledStudents(List<UserEntity> enrolledStudents) {
         this.enrolledStudents = enrolledStudents;
     }
 
@@ -114,7 +116,50 @@ public class CourseEntity {
     public void setQuestionBank(Map<String, String> questionBank) {
         this.questionBank = questionBank;
     }
+    public void EnrollCourse(int studentId){
+    }
 
+    public void setMediaFiles(List<MediaFile> mediaFiles) {
+        this.mediaFiles = mediaFiles;
+    }
+
+    public List<MediaFile> getMediaFiles() {
+        return mediaFiles;
+    }
+
+    public void addMediaFiles(MediaFile mediaFile){
+        this.mediaFiles.add(mediaFile);
+    }
+
+    public void enrollStudet(UserEntity student) {
+        enrolledStudents.add(student);
+
+    }
+
+    public void addAssigment(AssignmentEntity assignment) {
+        int  id =assignment.getAssignmentID() ;
+        boolean found=false;
+        int i;
+        AssignmentEntity tempAssigment=null;
+        for(i=0;i<assignments.size();i++){
+             tempAssigment = assignments.get(i);
+            if(tempAssigment.getAssignmentID() == assignment.getAssignmentID()){
+                 found=true;
+                 break;
+            }
+        }
+
+        if(!found){
+            System.out.println("NOT ----- > Remvoing assigment");
+            assignments.add(assignment);
+        }
+        else {
+            System.out.println("Remvoing assigment");
+            assignments.remove(tempAssigment);
+            assignments.add(assignment);
+        }
+    }
 
 
 }
+

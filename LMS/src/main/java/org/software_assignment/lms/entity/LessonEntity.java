@@ -59,7 +59,7 @@ public class LessonEntity {
     }
 
     public void addStudent(int studentID){
-        if (!studentsAttended.contains(studentID)) { 
+        if (!studentsAttended.contains(studentID)) {
             studentsAttended.add(studentID);
         }
     }

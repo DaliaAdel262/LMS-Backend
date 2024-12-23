@@ -3,11 +3,13 @@ package org.software_assignment.lms.service;
 import org.software_assignment.lms.entity.CourseEntity;
 import org.software_assignment.lms.entity.QuizEntity;
 import org.software_assignment.lms.entity.Student;
+import org.software_assignment.lms.entity.UserEntity;
 import org.software_assignment.lms.repository.CourseRepository;
 import org.software_assignment.lms.repository.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class InstructorService {
@@ -28,8 +30,8 @@ public class InstructorService {
         CourseEntity courseEntity = courseRepository.findById(courseId);
         if(courseEntity == null)
             throw new RuntimeException("Course not found");
-        List< Student> std = courseEntity.getEnrolledStudents();
-        for (Student student : std) {
+        List<UserEntity> std = courseEntity.getEnrolledStudents();
+        for (UserEntity student : std) {
             if (student.getId() == stdID) {
                 std.remove(student);
                 courseEntity.setEnrolledStudents(std);
@@ -39,4 +41,9 @@ public class InstructorService {
         }
         throw new RuntimeException("Student not found");
     }
+
+    public Map<Integer,Integer> trackQuiz(int quizId){
+        return quizRepository.findById(quizId).getStudentGrades();
+    }
+
 }

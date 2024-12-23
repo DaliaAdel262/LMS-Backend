@@ -3,12 +3,28 @@ package org.software_assignment.lms.controller;
 import java.util.NoSuchElementException;
 import java.nio.file.*;
 import org.apache.catalina.connector.Response;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.apache.catalina.User;
+import org.software_assignment.lms.entity.AssignmentEntity;
+import org.software_assignment.lms.entity.CourseEntity;
+import org.software_assignment.lms.entity.UserEntity;
 import org.software_assignment.lms.service.AssignmentService;
+import org.software_assignment.lms.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.core.io.*;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping(value = "api/assignments")
@@ -16,6 +32,8 @@ public class AssignmentController {
     
     @Autowired
     private AssignmentService assignmentService;
+    @Autowired
+    private CourseService courseService;
 
     @PostMapping(value = "/{assignmentID}/{student_id}/submissions")
     private ResponseEntity<String> addSubmission(@PathVariable int studentID,@PathVariable int assignmentID,@RequestParam String filePath){
@@ -33,7 +51,7 @@ public class AssignmentController {
     }
 
     @GetMapping(value = "/{assignmentID}/{student_id}/grade")
-    private ResponseEntity<String> gradeAssignment(@PathVariable int assignmentID, @PathVariable int studentID){
+     ResponseEntity<String> gradeAssignment(@PathVariable int assignmentID, @PathVariable int studentID){
         try{
 
             String studentSubmission = assignmentService.gradeAssignment(studentID, assignmentID);
@@ -52,7 +70,7 @@ public class AssignmentController {
     }
 
     @GetMapping(value = "/{assignmentID}")
-    private ResponseEntity<?> getAssignment(@PathVariable int assignmentID){
+     ResponseEntity<?> getAssignment(@PathVariable int assignmentID){
         try {
             String filePath = assignmentService.getAssignmentFilePath(assignmentID);
             
@@ -75,4 +93,15 @@ public class AssignmentController {
         }
     }
 
+
+    public void submitAssigment(int studentId, int assigmentId, String filePath) {
+        assignmentService.addStudentSubmission(studentId,assigmentId,filePath);
+    }
+    public String getAssigmentFeedback(int assigmentId,int studentId){
+        return assignmentService.getFeedback(assigmentId,studentId);
+    }
+
+    public String getAssigemntSubmissions(int assigmentId){
+       return assignmentService.getAssigemntSubmissions(assigmentId);
+    }
 }

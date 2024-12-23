@@ -1,8 +1,13 @@
 package org.software_assignment.lms.entity;
+import java.util.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Setter
+@Getter
 public class AssignmentEntity {
     private int assignmentID;
     private String assignmentName;
@@ -10,9 +15,9 @@ public class AssignmentEntity {
     private String filePath;
     private String dueDate;
     private String courseId;
-    Map<Integer, String> studentSubmissions;
+    Map<Integer, String> studentSubmissions=new HashMap<>();
+    Map<Integer,Double> studentsGrades = new HashMap<>();
     public AssignmentEntity() {}
-
     public AssignmentEntity(int assignmentID, String assignmentName, String assignmentDescription, String dueDate, String filePath, String courseId) {
         this.assignmentID = assignmentID;
         this.assignmentName = assignmentName;
@@ -21,6 +26,10 @@ public class AssignmentEntity {
         this.courseId = courseId;
         this.filePath = filePath;
         this.studentSubmissions = new HashMap<>();
+    }
+
+
+    public AssignmentEntity(int i, String s, String writeAJavaProgram, String date, String number) {
     }
 
     public int getAssignmentID() {
@@ -77,5 +86,15 @@ public class AssignmentEntity {
 
     public void addSubmission(int student_id, String filePath){
         this.studentSubmissions.put(student_id, filePath);
+    }
+
+    public void addStudentsGrades(int studentId, double grade){
+        studentsGrades.put(studentId,grade);
+    }
+
+
+
+    public Double getSingleStudentGrade(int studentId) {
+      return studentsGrades.get(studentId);
     }
 }

@@ -1,6 +1,5 @@
 
 package org.software_assignment.lms.repository;
-import org.software_assignment.lms.entity.CourseEntity;
 import org.springframework.stereotype.Repository;
 import org.software_assignment.lms.entity.QuizEntity;
 import java.util.*;

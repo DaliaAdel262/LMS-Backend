@@ -56,10 +56,47 @@ public class QuizService {
         }
 
         int totalQuestions = modelAnswers.size();
+        quiz.addstudentGrades(studentId,score);
         return Map.of(
                 "grade", score,
                 "totalQuestions", totalQuestions,
                 "feedback", "You scored " + score + " out of " + totalQuestions
         );
+    }
+
+    public void submitQuiz(int quizId, int studtId, Map<String, String> answer) throws Exception {
+
+        QuizEntity quiz = quizRepository.findById(quizId);
+        if(quiz!=null) {
+            quiz.addStudentAnswer(studtId, answer);
+            gradeQuiz(quizId,studtId);
+        }
+        else throw new Exception("Quiz not found");
+    }
+
+    public String trackQuiz(int quizId) {
+        QuizEntity quiz = getQuizById(quizId);
+        Map<Integer,Integer> scores = quiz.getStudentGrades();;
+        String output ="";
+        for(Map.Entry<Integer,Integer>score:scores.entrySet()){
+            output += "Student id: "+score.getKey() + " | Grade: "+score.getValue()+"\n";
+        }
+        return  output;
+    }
+
+    public double averageScore(int quizId){
+
+        QuizEntity quiz = getQuizById(quizId);
+        if(quiz!=null) {
+            Map<Integer, Integer> scores = quiz.getStudentGrades();
+            ;
+            double sum = 0;
+            for (Map.Entry<Integer, Integer> score : scores.entrySet()) {
+                sum += score.getValue();
+            }
+            return sum / quiz.getStudentGrades().size();
+        }
+        return  0.0;
+
     }
 }
