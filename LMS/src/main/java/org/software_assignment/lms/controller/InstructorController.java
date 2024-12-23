@@ -55,8 +55,7 @@ public class InstructorController {
     @PreAuthorize("hasAuthority('INSTRUCTOR')")
     @PostMapping("/api/add/quiz")
     ResponseEntity<String> addQuizzes(@RequestBody QuizEntity quiz) {
-        try {
-            instructorService.addQuiz(quiz);
+        try {quizService.addQuiz(quiz);
             return ResponseEntity.ok("Successfully added quiz");
         }
         catch (Exception e) {
@@ -180,7 +179,7 @@ public class InstructorController {
         try{
 
             lessonService.addLesson(lesson);
-            return ResponseEntity.ok("successfully added Assigment: " +lesson.getId() +" to Course "+lesson.getCourseId());
+            return ResponseEntity.ok("successfully added Lesson: " +lesson.getId() +" to Course "+lesson.getCourseId());
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());

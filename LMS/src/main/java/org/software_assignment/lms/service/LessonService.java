@@ -1,7 +1,9 @@
 package org.software_assignment.lms.service;
+import org.software_assignment.lms.entity.AssignmentEntity;
 import org.software_assignment.lms.entity.CourseEntity;
 import org.software_assignment.lms.entity.LessonEntity;
 import org.software_assignment.lms.entity.UserEntity;
+import org.software_assignment.lms.repository.CourseRepository;
 import org.software_assignment.lms.repository.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,9 @@ public class LessonService {
 
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private CourseRepository courseRepository;
+
 
     public LessonService(LessonRepository lessonRepository, CourseService courseService) {
         this.lessonRepository = lessonRepository;
@@ -104,20 +109,12 @@ public class LessonService {
         return output;
     }
 
-//    // add lesson (intialize lesson from body)
-//    public void addLesson(int lessonId, String courseId, String title, String content, int duration) {
-//        System.out.println("Adding lesson: " + lessonId + " to course: " + courseId);
-//        LessonEntity lesson = new LessonEntity(lessonId, title, content, courseId);
-//        lessonRepository.save(lesson);
-//        courseService.addLessonToCourse(courseId, lesson, duration);
-//        System.out.println("Lesson added successfully.");
-//    }
-
-    public LessonEntity addLesson(LessonEntity lessonEntity) {
-        if (lessonEntity.getTitle() == null || lessonEntity.getContent() == null || lessonEntity.getCourseId() == null) {
-            throw new IllegalArgumentException("Lesson details are incomplete.");
-        }
-        return lessonRepository.save(lessonEntity);
+    public void addLesson(LessonEntity lesson) {
+        CourseEntity course = courseRepository.findById(lesson.getCourseId());
+        course.addLesson(lesson);
+        // add assigment to repo
+        lessonRepository.save(lesson);
     }
+
 
 }

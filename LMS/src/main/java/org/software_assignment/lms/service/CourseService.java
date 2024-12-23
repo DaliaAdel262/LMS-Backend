@@ -225,35 +225,6 @@ public class CourseService {
 
     }
 
-    //add lesson to specific course
-//    public CourseEntity addLessonToCourse(String courseId, LessonEntity lesson, int lessonDuration) {
-//        CourseEntity course = courseRepository.findById(courseId);
-//        if (course == null) {
-//            throw new NoSuchElementException("Course with ID " + courseId + " not found");
-//        }
-//        course.addLesson(lesson);
-//        course.incrementDuration(lessonDuration);
-//        courseRepository.save(course);
-//        return course;
-//
-//    }
 
-    public String addLessonToCourse(String courseId, LessonEntity lesson) {
-        CourseEntity course = courseRepository.findById(courseId);
-        if (course == null) {
-            throw new NoSuchElementException("Course with ID " + courseId + " not found.");
-        }
 
-        List<LessonEntity> lessons = course.getLessons();
-        if (lessons == null) {
-            lessons = new ArrayList<>();
-        }
-
-        if (!lessons.contains(lesson)) {
-            lessons.add(lesson);
-            return "Lesson added successfully.";
-        } else {
-            return "Lesson already exists in the course.";
-        }
-    }
 }

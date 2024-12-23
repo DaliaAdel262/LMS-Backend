@@ -1,6 +1,7 @@
 package org.software_assignment.lms.service;
 
 import org.software_assignment.lms.entity.*;
+import org.software_assignment.lms.repository.CourseRepository;
 import org.software_assignment.lms.repository.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ import java.util.*;
 public class QuizService {
     private final QuizRepository quizRepository;
     private final NotificationService notificationService;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     @Autowired
     public QuizService(QuizRepository quizRepository,NotificationService notificationService) {
@@ -62,9 +66,9 @@ public class QuizService {
         int totalQuestions = modelAnswers.size();
         quiz.addstudentGrades(studentId,score);
 
-        LocalDate currentDate = LocalDate.now();
-        notificationService.pushNotification((new NotificationEntity(currentDate,"well done ")),studentId);
 
+        LocalDate currentDate = LocalDate.now();
+        notificationService.pushNotification(new NotificationEntity(currentDate, "Well done!"), studentId);
         return Map.of(
                 "grade", score,
                 "totalQuestions", totalQuestions,
@@ -106,5 +110,11 @@ public class QuizService {
         }
         return  0.0;
 
+    }
+    public void addQuiz(QuizEntity quiz) {
+        CourseEntity course = courseRepository.findById(quiz.getCourseId());
+        course.addQuiz(quiz);
+        // add assigment to repo
+        quizRepository.save(quiz);
     }
 }

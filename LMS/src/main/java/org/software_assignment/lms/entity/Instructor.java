@@ -15,6 +15,5 @@ public class Instructor extends UserEntity{
         CourseEntity course = new CourseEntity();
 
     }
-    //Creates courses, manages course content, adds assignments and quizzes,
-   //grades students, removes students from courses.
+
 }

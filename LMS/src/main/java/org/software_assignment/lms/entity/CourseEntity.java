@@ -135,7 +135,7 @@ public class CourseEntity {
         enrolledStudents.add(student);
 
     }
-
+//helper methods
     public void addAssigment(AssignmentEntity assignment) {
         int  id =assignment.getAssignmentID() ;
         boolean found=false;
@@ -159,7 +159,52 @@ public class CourseEntity {
             assignments.add(assignment);
         }
     }
+    public void addLesson(LessonEntity lesson) {
+        int  id = lesson.getId();
+        boolean found=false;
+        int i;
+        LessonEntity tempLesson=null;
+        for(i=0;i<lessons.size();i++){
+            tempLesson= lessons.get(i);
+            if(tempLesson.getId() == lesson.getId()){
+                found=true;
+                break;
+            }
+        }
 
+        if(!found){
 
+            lessons.add(lesson);
+        }
+        else {
+
+            lessons.remove(tempLesson);
+            lessons.add(lesson);
+        }
+    }
+
+    public void addQuiz(QuizEntity quiz) {
+        int  id = quiz.getId();
+        boolean found=false;
+        int i;
+        QuizEntity tempQuiz=null;
+        for(i=0;i<quizzes.size();i++){
+            tempQuiz= quizzes.get(i);
+            if(tempQuiz.getId() == quiz.getId()){
+                found=true;
+                break;
+            }
+        }
+
+        if(!found){
+
+            quizzes.add(quiz);
+        }
+        else {
+
+            quizzes.remove(tempQuiz);
+            quizzes.add(quiz);
+        }
+    }
 }
 

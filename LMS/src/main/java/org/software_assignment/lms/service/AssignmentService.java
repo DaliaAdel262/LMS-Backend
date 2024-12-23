@@ -86,7 +86,6 @@ public class AssignmentService {
     public void addAssigment(AssignmentEntity assignment){
         CourseEntity course = courseRepository.findById(assignment.getCourseId());
         course.addAssigment(assignment);
-
         // add assigment to repo
         assignmentRepo.save(assignment);
 
