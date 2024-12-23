@@ -104,8 +104,8 @@ public class LessonService {
         return output;
     }
 
-    // add lesson to course
-    public void addLessonToCourse(int lessonId, String courseId, String title, String content, int duration) {
+    // add lesson (intialize lesson from body)
+    public void addLesson(int lessonId, String courseId, String title, String content, int duration) {
         System.out.println("Adding lesson: " + lessonId + " to course: " + courseId);
         LessonEntity lesson = new LessonEntity(lessonId, title, content, courseId);
         lessonRepository.save(lesson);

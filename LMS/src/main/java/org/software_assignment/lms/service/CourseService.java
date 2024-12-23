@@ -223,7 +223,7 @@ public void deleteCourseById(String id) {
 
     }
 
-    //add lesson to course
+    //add lesson to specific course
     public CourseEntity addLessonToCourse(String courseId, LessonEntity lesson, int lessonDuration) {
         CourseEntity course = courseRepository.findById(courseId);
         if (course == null) {

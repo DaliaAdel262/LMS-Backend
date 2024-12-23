@@ -174,6 +174,19 @@ public class InstructorController {
         }
 
     }
+    @PreAuthorize("hasAuthority('INSTRUCTOR')")
+    @PostMapping("/api/add/lesson")
+    ResponseEntity<?> addLesson(@RequestBody LessonEntity lesson){
+        try{
+
+            lessonService.addLesson(lesson);
+            return ResponseEntity.ok("successfully added Assigment: " +lesson.getId() +" to Course "+lesson.getCourseId());
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
 
 
     @PreAuthorize("hasAuthority('INSTRUCTOR')")
@@ -228,24 +241,5 @@ public class InstructorController {
 
     }
 
-
-    @PreAuthorize("hasAuthority('INSTRUCTOR')")
-    @PostMapping("/api/courses/{courseId}/lessons")
-    ResponseEntity<String> addLessonToCourse(
-            @PathVariable String courseId,
-            @RequestParam int lessonId,
-            @RequestParam String title,
-            @RequestParam String content,
-            @RequestParam int duration
-    ) {
-        try {
-            lessonService.addLessonToCourse(lessonId, courseId, title, content, duration);
-            return ResponseEntity.ok("Successfully added lesson to course.");
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
-        }
-    }
 
 }
