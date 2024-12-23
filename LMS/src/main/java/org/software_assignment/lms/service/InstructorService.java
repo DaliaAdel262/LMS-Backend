@@ -1,10 +1,8 @@
 package org.software_assignment.lms.service;
 
-import org.software_assignment.lms.entity.CourseEntity;
-import org.software_assignment.lms.entity.QuizEntity;
-import org.software_assignment.lms.entity.Student;
-import org.software_assignment.lms.entity.UserEntity;
+import org.software_assignment.lms.entity.*;
 import org.software_assignment.lms.repository.CourseRepository;
+import org.software_assignment.lms.repository.LessonRepository;
 import org.software_assignment.lms.repository.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,9 +44,9 @@ public class InstructorService {
         return quizRepository.findById(quizId).getStudentGrades();
     }
     @Autowired
-    LessonService lessonService;
+    LessonRepository lessonRepository;
 
-    public void addLessonToCourse(int lessonId, String courseId, String title, String content, int duration) {
-        lessonService.addLessonToCourse(lessonId, courseId, title, content, duration);
+    public void addLesson(LessonEntity lesson){
+        lessonRepository.save(lesson);
     }
 }

@@ -74,12 +74,13 @@ public class CourseService {
         }
     }
 
-public void deleteCourseById(String id) {
+    public void deleteCourseById(String id) {
         if (courseRepository.findById(id) == null) {
-         throw new NoSuchElementException("Course with ID " + id + " does not exist.");
+            throw new NoSuchElementException("Course with ID " + id + " does not exist.");
         }
         courseRepository.deleteById(id);
     }
+
     public CourseEntity getCourseDetails(String id) {
         CourseEntity course = courseRepository.findById(id);
         if (course == null) {
@@ -98,6 +99,7 @@ public void deleteCourseById(String id) {
         }
         return new ArrayList<>();
     }
+
     public String addQuestionToCourse(String courseId, String question, String answer) {
         List<CourseEntity> data = courseRepository.findAll();
         for (CourseEntity course : data) {
@@ -224,14 +226,34 @@ public void deleteCourseById(String id) {
     }
 
     //add lesson to specific course
-    public CourseEntity addLessonToCourse(String courseId, LessonEntity lesson, int lessonDuration) {
+//    public CourseEntity addLessonToCourse(String courseId, LessonEntity lesson, int lessonDuration) {
+//        CourseEntity course = courseRepository.findById(courseId);
+//        if (course == null) {
+//            throw new NoSuchElementException("Course with ID " + courseId + " not found");
+//        }
+//        course.addLesson(lesson);
+//        course.incrementDuration(lessonDuration);
+//        courseRepository.save(course);
+//        return course;
+//
+//    }
+
+    public String addLessonToCourse(String courseId, LessonEntity lesson) {
         CourseEntity course = courseRepository.findById(courseId);
         if (course == null) {
-            throw new NoSuchElementException("Course with ID " + courseId + " not found");
+            throw new NoSuchElementException("Course with ID " + courseId + " not found.");
         }
-        course.addLesson(lesson);
-        course.incrementDuration(lessonDuration);
-        courseRepository.save(course);
-        return course;
 
-    }}
+        List<LessonEntity> lessons = course.getLessons();
+        if (lessons == null) {
+            lessons = new ArrayList<>();
+        }
+
+        if (!lessons.contains(lesson)) {
+            lessons.add(lesson);
+            return "Lesson added successfully.";
+        } else {
+            return "Lesson already exists in the course.";
+        }
+    }
+}

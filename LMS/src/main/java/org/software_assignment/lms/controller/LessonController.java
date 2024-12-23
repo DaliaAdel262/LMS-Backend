@@ -53,18 +53,31 @@ public class LessonController {
     }
 
     //add lesson
-    @PostMapping("/courses/{courseId}/lessons")
-    public ResponseEntity<String> addLesson(
-            @PathVariable String courseId,
-            @RequestParam int lessonId,
-            @RequestParam String title,
-            @RequestParam String content,
-            @RequestParam int duration) {
+//    @PostMapping("/courses/{courseId}/lessons")
+//    public ResponseEntity<String> addLesson(
+//            @PathVariable String courseId,
+//            @RequestParam int lessonId,
+//            @RequestParam String title,
+//            @RequestParam String content,
+//            @RequestParam int duration) {
+//        try {
+//            lessonService.addLessonToCourse(lessonId, courseId, title, content, duration);
+//            return ResponseEntity.ok("Lesson added successfully.");
+//        } catch (NoSuchElementException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        }
+//    }
+
+
+    @PostMapping
+    public ResponseEntity<String> addLesson(@RequestBody LessonEntity lessonEntity) {
         try {
-            lessonService.addLessonToCourse(lessonId, courseId, title, content, duration);
-            return ResponseEntity.ok("Lesson added successfully.");
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            LessonEntity savedLesson = lessonService.addLesson(lessonEntity);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Lesson added successfully with ID: " + savedLesson.getId());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while adding the lesson");
         }
     }
 

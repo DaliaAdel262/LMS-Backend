@@ -104,12 +104,20 @@ public class LessonService {
         return output;
     }
 
-    // add lesson (intialize lesson from body)
-    public void addLesson(int lessonId, String courseId, String title, String content, int duration) {
-        System.out.println("Adding lesson: " + lessonId + " to course: " + courseId);
-        LessonEntity lesson = new LessonEntity(lessonId, title, content, courseId);
-        lessonRepository.save(lesson);
-        courseService.addLessonToCourse(courseId, lesson, duration);
-        System.out.println("Lesson added successfully.");
+//    // add lesson (intialize lesson from body)
+//    public void addLesson(int lessonId, String courseId, String title, String content, int duration) {
+//        System.out.println("Adding lesson: " + lessonId + " to course: " + courseId);
+//        LessonEntity lesson = new LessonEntity(lessonId, title, content, courseId);
+//        lessonRepository.save(lesson);
+//        courseService.addLessonToCourse(courseId, lesson, duration);
+//        System.out.println("Lesson added successfully.");
+//    }
+
+    public LessonEntity addLesson(LessonEntity lessonEntity) {
+        if (lessonEntity.getTitle() == null || lessonEntity.getContent() == null || lessonEntity.getCourseId() == null) {
+            throw new IllegalArgumentException("Lesson details are incomplete.");
+        }
+        return lessonRepository.save(lessonEntity);
     }
+
 }

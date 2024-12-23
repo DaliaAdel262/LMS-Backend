@@ -92,22 +92,35 @@ public class CourseController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
     //add lesson to course
+//    @PostMapping("/{courseId}/lessons")
+//    public ResponseEntity<String> addLessonToCourse(
+//            @PathVariable String courseId,
+//            @RequestParam int lessonId,
+//            @RequestParam String title,
+//            @RequestParam String content,
+//            @RequestParam int duration) {
+//        try {
+//            lessonService.addLessonToCourse(lessonId, courseId, title, content, duration);
+//            return ResponseEntity.ok("Lesson added successfully and duration updated.");
+//        } catch (NoSuchElementException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        }
+//    }
+
+
     @PostMapping("/{courseId}/lessons")
     public ResponseEntity<String> addLessonToCourse(
             @PathVariable String courseId,
-            @RequestParam int lessonId,
-            @RequestParam String title,
-            @RequestParam String content,
-            @RequestParam int duration) {
+            @RequestBody LessonEntity lesson
+    ) {
         try {
-            lessonService.addLessonToCourse(lessonId, courseId, title, content, duration);
-            return ResponseEntity.ok("Lesson added successfully and duration updated.");
+            String result = courseService.addLessonToCourse(courseId, lesson);
+            return ResponseEntity.status(HttpStatus.CREATED).body(result);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
-
-
 }
 
