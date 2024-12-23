@@ -63,4 +63,16 @@ public class UserService {
             throw new RuntimeException("user not found");
         return user;
     }
+    public  void updateUser(UserEntity user) {
+        UserEntity userEntity = userRepository.findUserbyId(user.getId());
+        if (userEntity == null)
+            throw new RuntimeException("user not found");
+        else {
+            userEntity.setEmail(user.getEmail());
+            userEntity.setName(user.getName());
+            userEntity.setBirthday(user.getBirthday());
+            userRepository.deleteUser(userEntity);
+            userRepository.addUser(user);
+        }
+    }
 }

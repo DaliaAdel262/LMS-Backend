@@ -54,27 +54,6 @@ public class UserRepository {
         users.remove(user);
     }
 
-    void updateName(int id, String name){
-        UserEntity updateUser = findUserbyId(id);
-        updateUser.setName(name);
-    }
-
-    void updateBirthDay(int id, String birthday){
-        UserEntity updateUser = findUserbyId(id);
-        updateUser.setBirthday(birthday);
-    }
-
-    void updateEmail(int id, String email){
-        UserEntity updateUser = findUserbyId(id);
-        updateUser.setEmail(email);
-    }
-
-    void updatePassword(int id, String password){
-        UserEntity updateUser = findUserbyId(id);
-        updateUser.setPassword(password);
-    }
-
-
     public UserEntity findUserbyId(int id){
         for(int i =0;i<users.size();i++) {
             if(users.get(i).getId()==id)
@@ -90,4 +69,5 @@ public class UserRepository {
         }
         return null;
     }
+
 }
