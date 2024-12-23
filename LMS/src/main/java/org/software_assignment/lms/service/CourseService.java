@@ -222,4 +222,16 @@ public void deleteCourseById(String id) {
         return output;
 
     }
-}
+
+    //add lesson to course
+    public CourseEntity addLessonToCourse(String courseId, LessonEntity lesson, int lessonDuration) {
+        CourseEntity course = courseRepository.findById(courseId);
+        if (course == null) {
+            throw new NoSuchElementException("Course with ID " + courseId + " not found");
+        }
+        course.addLesson(lesson);
+        course.incrementDuration(lessonDuration);
+        courseRepository.save(course);
+        return course;
+
+    }}

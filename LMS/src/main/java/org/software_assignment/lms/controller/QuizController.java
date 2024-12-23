@@ -36,4 +36,5 @@ public class QuizController {
     public Map<String, Object> gradeQuiz(@PathVariable int quizId, @RequestParam int studentId) {
         return quizService.gradeQuiz(quizId, studentId);
     }
+
 }

@@ -52,6 +52,21 @@ public class LessonController {
         }
     }
 
+    //add lesson
+    @PostMapping("/courses/{courseId}/lessons")
+    public ResponseEntity<String> addLesson(
+            @PathVariable String courseId,
+            @RequestParam int lessonId,
+            @RequestParam String title,
+            @RequestParam String content,
+            @RequestParam int duration) {
+        try {
+            lessonService.addLessonToCourse(lessonId, courseId, title, content, duration);
+            return ResponseEntity.ok("Lesson added successfully.");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 
 
 }

@@ -102,4 +102,15 @@ public class LessonService {
 
         return output;
     }
-}
+
+    // add lesson to course
+    public void addLessonToCourse(int lessonId, String courseId, String title, String content, int duration) {
+        LessonEntity lesson = new LessonEntity(lessonId, title, content, courseId);
+
+        // Save the lesson to the lesson repository
+        lessonRepository.save(lesson);
+
+        // Update the course with the new lesson and its duration
+        courseService.addLessonToCourse(courseId, lesson, duration);
+
+    }}

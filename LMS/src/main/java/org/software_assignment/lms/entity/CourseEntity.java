@@ -160,6 +160,17 @@ public class CourseEntity {
         }
     }
 
+    //array list of lessons
+    public void addLesson(LessonEntity lesson) {
+        if (this.lessons == null) {
+            this.lessons = new ArrayList<>();
+        }
+        this.lessons.add(lesson);
+    }
 
+
+    public void incrementDuration(int duration) {
+        this.duration += duration;
+    }
 }
 

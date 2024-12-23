@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.software_assignment.lms.service.LessonService;
+
 import java.util.*;
 
 @RestController
@@ -15,6 +17,8 @@ import java.util.*;
 public class CourseController {
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private LessonService lessonService;
 
     @GetMapping(value = "/greetings")
     public String greetings(){
@@ -87,6 +91,22 @@ public class CourseController {
         String result = courseService.addQuestionToCourse(courseId, question, answer);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
+    //add lesson to course
+    @PostMapping("/{courseId}/lessons")
+    public ResponseEntity<String> addLessonToCourse(
+            @PathVariable String courseId,
+            @RequestParam int lessonId,
+            @RequestParam String title,
+            @RequestParam String content,
+            @RequestParam int duration) {
+        try {
+            lessonService.addLessonToCourse(lessonId, courseId, title, content, duration);
+            return ResponseEntity.ok("Lesson added successfully and duration updated.");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
 
 
 }
