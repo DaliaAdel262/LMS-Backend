@@ -49,8 +49,8 @@ public class CourseRepository {
                             )
                     )),
                     new ArrayList<>(List.of(
-                            new Student(1, "Mariam", "2005", "mariameid33@gmail.com", "ra5"),
-                            new Student(2, "Bob", "1999-02-02", "bob@example.com", "password456")
+                            new Student(1, "Mariam", "2005", "mariameid33@gmail.com", "ra5" , "STUDENT"),
+                            new Student(2, "Bob", "1999-02-02", "bob@example.com", "password456" , "STUDENT")
                     )),
                     new HashMap<>(Map.of(
                             "What is Java?", "A programming language",
@@ -78,7 +78,7 @@ public class CourseRepository {
     }
 
     public CourseEntity save(CourseEntity course) {
-        if(findById(course.getId())== null){
+        if(findById(course.getId()) == null) {
             courses.add(course);
         }else{
             deleteById(course.getId());

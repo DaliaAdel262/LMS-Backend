@@ -1,0 +1,63 @@
+{
+  "id": "course_001",
+  "title": "Introduction to Programming",
+  "description": "This course provides an introduction to programming concepts and techniques.",
+  "duration": 60,
+  "instructorId": 101,
+  "lessons": [
+    {
+      "id": "lesson_001",
+      "title": "Variables and Data Types",
+      "content": "Lesson content about variables and data types."
+    },
+    {
+      "id": "lesson_002",
+      "title": "Control Structures",
+      "content": "Lesson content about control structures."
+    }
+  ],
+  "assignments": [
+    {
+      "id": "assignment_001",
+      "title": "Variables Assignment",
+      "description": "An assignment to practice variables."
+    },
+    {
+      "id": "assignment_002",
+      "title": "Loops Assignment",
+      "description": "An assignment to practice loops."
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "quiz_001",
+      "title": "Basics Quiz",
+      "questions": [
+        {
+          "question": "What is a variable?",
+          "options": ["A container for data", "A data type", "A function"],
+          "answer": "A container for data"
+        }
+      ]
+    }
+  ],
+  "enrolledStudents": [
+    {
+      "id": "student_001",
+      "name": "John Doe",
+      "email": "john.doe@example.com"
+    },
+    {
+      "id": "student_002",
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com"
+    }
+  ],
+  "questionBank": {
+    "question_001": "What is an array?",
+    "question_002": "Explain the purpose of a loop."
+  }
+}
+/////////////////////////////////////////////////
+Instuctor token
+eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiSU5TVFJVQ1RPUiIsImlhdCI6MTczNDUzNjEzMiwiZXhwIjoxNzM0NTcyMTMyfQ.F_cEF4lW_qvVnBGs0z2e5nWJgCxltF-kpuyg2IFbL1g
