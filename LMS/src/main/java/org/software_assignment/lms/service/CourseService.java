@@ -1,14 +1,17 @@
 package org.software_assignment.lms.service;
+
+import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.software_assignment.lms.entity.CourseEntity;
 import org.software_assignment.lms.entity.*;
 import org.software_assignment.lms.repository.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.Path;
@@ -20,6 +23,10 @@ public class CourseService {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    public CourseService(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
 
 
     //get all courses
@@ -67,7 +74,12 @@ public class CourseService {
         }
     }
 
-
+public void deleteCourseById(String id) {
+        if (courseRepository.findById(id) == null) {
+         throw new NoSuchElementException("Course with ID " + id + " does not exist.");
+        }
+        courseRepository.deleteById(id);
+    }
     public CourseEntity getCourseDetails(String id) {
         CourseEntity course = courseRepository.findById(id);
         if (course == null) {
@@ -86,7 +98,6 @@ public class CourseService {
         }
         return new ArrayList<>();
     }
-
     public String addQuestionToCourse(String courseId, String question, String answer) {
         List<CourseEntity> data = courseRepository.findAll();
         for (CourseEntity course : data) {
@@ -94,7 +105,8 @@ public class CourseService {
                 if (course.getQuestionBank() == null) {
                     throw new IllegalStateException("Question bank is not initialized for this course");
                 }
-                course.getQuestionBank().put(question, answer); // Add question-answer pair
+                course.getQuestionBank().put(question, answer);
+                courseRepository.save(course);
                 return "Question added successfully";
             }
         }

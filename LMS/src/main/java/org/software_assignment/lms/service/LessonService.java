@@ -1,5 +1,4 @@
 package org.software_assignment.lms.service;
-
 import org.software_assignment.lms.entity.CourseEntity;
 import org.software_assignment.lms.entity.LessonEntity;
 import org.software_assignment.lms.entity.UserEntity;

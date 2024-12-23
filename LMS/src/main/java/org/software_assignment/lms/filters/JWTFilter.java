@@ -40,7 +40,6 @@ public class JWTFilter extends OncePerRequestFilter {
         }
         else if (body != null && body.equals("superAdmin@dash.com"))
         {
-            System.out.println("SuperAdmin");
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(username, password, Collections.singletonList(() -> "ADMIN"));  // Prepending ROLE_ to match standard Spring Security roles
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

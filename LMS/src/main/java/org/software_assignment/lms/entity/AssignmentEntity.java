@@ -1,5 +1,5 @@
 package org.software_assignment.lms.entity;
-
+import java.util.*
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +18,6 @@ public class AssignmentEntity {
     Map<Integer, String> studentSubmissions=new HashMap<>();
     Map<Integer,Double> studentsGrades = new HashMap<>();
     public AssignmentEntity() {}
-
     public AssignmentEntity(int assignmentID, String assignmentName, String assignmentDescription, String dueDate, String filePath, String courseId) {
         this.assignmentID = assignmentID;
         this.assignmentName = assignmentName;

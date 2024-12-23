@@ -1,4 +1,6 @@
 package org.software_assignment.lms.service;
+import org.software_assignment.lms.entity.*;
+import org.software_assignment.lms.repository.*;
 
 import org.software_assignment.lms.entity.AssignmentEntity;
 import org.software_assignment.lms.entity.CourseEntity;
@@ -11,9 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 public class AssignmentService {
@@ -36,13 +36,10 @@ public class AssignmentService {
             throw new NoSuchElementException("Assignment not found");
 
         }else{
-            LocalDate currentDate = LocalDate.now();
-            System.out.println(currentDate);
             String dueDateString = assignment.getDueDate(); 
             LocalDate dueDate = LocalDate.parse(dueDateString, DateTimeFormatter.ISO_LOCAL_DATE);
+            LocalDate currentDate = LocalDate.now();
 
-
-            
             if (currentDate.isAfter(dueDate)) {
                 throw new IllegalArgumentException("Cannot submit the assignment. The due date has passed.");
             }

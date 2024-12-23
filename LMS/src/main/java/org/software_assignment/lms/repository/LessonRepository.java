@@ -1,5 +1,7 @@
 package org.software_assignment.lms.repository;
 
+import java.util.*;
+
 import org.software_assignment.lms.entity.LessonEntity;
 import org.springframework.stereotype.Repository;
 

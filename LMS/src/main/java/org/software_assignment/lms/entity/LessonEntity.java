@@ -1,7 +1,6 @@
 package org.software_assignment.lms.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class LessonEntity {
     private int id;
@@ -60,7 +59,7 @@ public class LessonEntity {
     }
 
     public void addStudent(int studentID){
-        if (!studentsAttended.contains(studentID)) { 
+        if (!studentsAttended.contains(studentID)) {
             studentsAttended.add(studentID);
         }
     }

@@ -1,14 +1,14 @@
 package org.software_assignment.lms.controller;
 import org.software_assignment.lms.entity.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-
+import org.software_assignment.lms.entity.CourseEntity;
 import org.software_assignment.lms.service.CourseService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import java.util.*;
-
 
 @RestController
 @RequestMapping(value = "/api/courses")
@@ -21,10 +21,23 @@ public class CourseController {
         return "Hello World";
     }
 
+
+    @PostMapping(value = "/")
+   public ResponseEntity<CourseEntity> addCourse(
+        @RequestParam  String id,
+        @RequestParam String title,
+        @RequestParam String description,
+        @RequestParam int instructorId
+   ) {
+       CourseEntity createdCourse = courseService.addCourse(id,title,description,instructorId);
+       return ResponseEntity.ok(createdCourse);
+   }
+
     @GetMapping(value = "/")
     public List<CourseEntity>getAllCourses() {
         return courseService.findAll();
     }
+
 
     //delete student from course
     @DeleteMapping(value = "/{courseId}/students/{studentId}")
@@ -35,6 +48,18 @@ public class CourseController {
             return ResponseEntity.ok("Student removed successfully.");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course or student not found.");
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCourse(
+            @PathVariable String id
+    ) {
+        try {
+            courseService.deleteCourseById(id);
+            return ResponseEntity.ok("Course deleted successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found: " + e.getMessage());
         }
     }
 
@@ -52,6 +77,7 @@ public class CourseController {
     public List<UserEntity> getStudentsFromCourse(@PathVariable String courseId) {
         return courseService.getStudentsByCourseId(courseId);
     }
+
     //add question to question bank
     @PostMapping("/{courseId}/questions/add")
     public ResponseEntity<String> addQuestionToCourse(
@@ -64,3 +90,4 @@ public class CourseController {
 
 
 }
+

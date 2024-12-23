@@ -68,6 +68,17 @@ public class UserController {
         }
     }
 
+    @PutMapping("/api/auth/users/update")
+    public ResponseEntity<String> updateUser(@RequestBody UserEntity userEntity) {
+        try {
+            userService.updateUser(userEntity);
+            return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }
 
 
