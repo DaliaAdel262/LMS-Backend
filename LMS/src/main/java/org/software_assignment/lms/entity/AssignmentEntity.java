@@ -1,5 +1,5 @@
 package org.software_assignment.lms.entity;
-import java.util.*
+import java.util.*;
 import lombok.Getter;
 import lombok.Setter;
 
