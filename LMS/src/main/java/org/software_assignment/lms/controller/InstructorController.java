@@ -173,6 +173,7 @@ public class InstructorController {
 
     }
 
+
     @PreAuthorize("hasAuthority('INSTRUCTOR')")
     @GetMapping("/api/view/assigment/{assignmentId}/{studentId}")
     ResponseEntity<?> viewAssigment(@PathVariable int assignmentId, @PathVariable int studentId){

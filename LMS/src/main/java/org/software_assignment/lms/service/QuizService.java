@@ -5,15 +5,19 @@ import org.software_assignment.lms.repository.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
 public class QuizService {
     private final QuizRepository quizRepository;
+    private final NotificationService notificationService;
 
     @Autowired
-    public QuizService(QuizRepository quizRepository) {
+    public QuizService(QuizRepository quizRepository,NotificationService notificationService) {
         this.quizRepository = quizRepository;
+        this.notificationService = notificationService;
     }
 
     // Display a quiz by ID
@@ -57,6 +61,10 @@ public class QuizService {
 
         int totalQuestions = modelAnswers.size();
         quiz.addstudentGrades(studentId,score);
+
+        LocalDate currentDate = LocalDate.now();
+        notificationService.pushNotification((new NotificationEntity(currentDate,"well done ")),studentId);
+
         return Map.of(
                 "grade", score,
                 "totalQuestions", totalQuestions,
