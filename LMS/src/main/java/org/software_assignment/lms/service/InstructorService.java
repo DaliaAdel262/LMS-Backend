@@ -45,5 +45,10 @@ public class InstructorService {
     public Map<Integer,Integer> trackQuiz(int quizId){
         return quizRepository.findById(quizId).getStudentGrades();
     }
+    @Autowired
+    LessonService lessonService;
 
+    public void addLessonToCourse(int lessonId, String courseId, String title, String content, int duration) {
+        lessonService.addLessonToCourse(lessonId, courseId, title, content, duration);
+    }
 }

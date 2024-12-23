@@ -4,12 +4,14 @@ import org.software_assignment.lms.entity.*;
 import org.software_assignment.lms.repository.CourseRepository;
 import org.software_assignment.lms.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController()
 public class InstructorController {
@@ -227,6 +229,23 @@ public class InstructorController {
     }
 
 
-
+    @PreAuthorize("hasAuthority('INSTRUCTOR')")
+    @PostMapping("/api/courses/{courseId}/lessons")
+    ResponseEntity<String> addLessonToCourse(
+            @PathVariable String courseId,
+            @RequestParam int lessonId,
+            @RequestParam String title,
+            @RequestParam String content,
+            @RequestParam int duration
+    ) {
+        try {
+            lessonService.addLessonToCourse(lessonId, courseId, title, content, duration);
+            return ResponseEntity.ok("Successfully added lesson to course.");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+        }
+    }
 
 }

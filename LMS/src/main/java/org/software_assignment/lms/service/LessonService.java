@@ -13,7 +13,7 @@ import java.util.Random;
 
 @Service
 public class LessonService {
-    
+
     @Autowired
     private LessonRepository lessonRepository;
 
@@ -25,9 +25,9 @@ public class LessonService {
         this.courseService = courseService;
     }
 
-    public String getOTP(int studentID, int lessonID, String courseID){
+    public String getOTP(int studentID, int lessonID, String courseID) {
         LessonEntity lesson = lessonRepository.findbyId(lessonID);
-        if(lesson!=null){
+        if (lesson != null) {
             if (!lesson.getCourseId().equals(courseID)) {
                 throw new IllegalArgumentException("Lesson does not belong to the specified course");
             }
@@ -36,12 +36,12 @@ public class LessonService {
             }
             markAttendance(studentID, lessonID);
             return lesson.getOTP();
-        }else{
+        } else {
             throw new NoSuchElementException("Lesson not found");
         }
     }
 
-    public void markAttendance(int studentID, int lessonID){
+    public void markAttendance(int studentID, int lessonID) {
         LessonEntity lesson = lessonRepository.findbyId(lessonID);
         if (lesson == null) {
             throw new NoSuchElementException("Lesson not found");
@@ -52,6 +52,7 @@ public class LessonService {
             lessonRepository.save(lesson);
         }
     }
+
     public String generateOTP(int lessonID) {
         LessonEntity lesson = lessonRepository.findbyId(lessonID);
         if (lesson == null) {
@@ -62,6 +63,7 @@ public class LessonService {
         lessonRepository.save(lesson);
         return otp;
     }
+
     public LessonEntity displayLesson(int lessonID) {
         LessonEntity lesson = lessonRepository.findbyId(lessonID);
         if (lesson == null) {
@@ -70,10 +72,10 @@ public class LessonService {
         return lesson;
     }
 
-    public String attendLesson(int lessonId,int studtId,String OTP) throws Exception {
+    public String attendLesson(int lessonId, int studtId, String OTP) throws Exception {
         LessonEntity lesson = displayLesson(lessonId);
         String actualOTP = lesson.getOTP();
-        if(Objects.equals(actualOTP, OTP)) {
+        if (Objects.equals(actualOTP, OTP)) {
             markAttendance(studtId, lessonId);
             return "Successfully Attended the lesson";
         }
@@ -83,21 +85,20 @@ public class LessonService {
 
     public String getAttendence(int lessonId) {
         LessonEntity lesson = lessonRepository.findbyId(lessonId);
-        List<Integer> studentsAttended =lesson.getStudentsAttended();
+        List<Integer> studentsAttended = lesson.getStudentsAttended();
 
-        CourseEntity course =courseService.getCourseDetails(lesson.getCourseId());
+        CourseEntity course = courseService.getCourseDetails(lesson.getCourseId());
         List<UserEntity> studentsEnrolled = course.getEnrolledStudents();
 
         System.out.println(lesson.getCourseId());
 
-        String output ="";
-        for(int i=0;i<studentsEnrolled.size();i++){
-            output+="Student Id: "+studentsEnrolled.get(i).getId();
-            if(studentsAttended.contains(studentsEnrolled.get(i).getId())){
-                output+=" Attended = True\n";
+        String output = "";
+        for (int i = 0; i < studentsEnrolled.size(); i++) {
+            output += "Student Id: " + studentsEnrolled.get(i).getId();
+            if (studentsAttended.contains(studentsEnrolled.get(i).getId())) {
+                output += " Attended = True\n";
 
-            }
-            else  output+=" Attended = False\n";
+            } else output += " Attended = False\n";
         }
 
         return output;
@@ -105,12 +106,10 @@ public class LessonService {
 
     // add lesson to course
     public void addLessonToCourse(int lessonId, String courseId, String title, String content, int duration) {
+        System.out.println("Adding lesson: " + lessonId + " to course: " + courseId);
         LessonEntity lesson = new LessonEntity(lessonId, title, content, courseId);
-
-        // Save the lesson to the lesson repository
         lessonRepository.save(lesson);
-
-        // Update the course with the new lesson and its duration
         courseService.addLessonToCourse(courseId, lesson, duration);
-
-    }}
+        System.out.println("Lesson added successfully.");
+    }
+}
